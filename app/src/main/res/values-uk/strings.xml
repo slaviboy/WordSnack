@@ -174,4 +174,5 @@
     <string name="notification_game2">Час зробити перерву… Зіграйте у "%s"!</string>
     <string name="notification_game3">Потребуєте свою щоденну дозу веселих головоломок? Зіграйте у "%s"!</string>
     <string name="notification_game4">Є ще багато слів які треба відкрити і головоломок які потрібно вирішити! Продовжуйте зі "%s"!</string>
+    <string name="language_name">Український</string>
 </resources>

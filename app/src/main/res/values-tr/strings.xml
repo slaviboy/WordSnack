@@ -174,4 +174,5 @@
     <string name="notification_game2">Mola zamanı... "%s" oyna!</string>
     <string name="notification_game3">Günlük bulmaca dozuna ihtiyacın mı var? "%s" oyna!</string>
     <string name="notification_game4">Daha keşfedilecek birçok kelime ve çözülecek birçok bulmaca var! "%s" uygulamasına devam et!</string>
+    <string name="language_name">Türkçe</string>
 </resources>

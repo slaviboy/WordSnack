@@ -171,4 +171,5 @@
     <string name="notification_game2">Време је за паузу... Играјте "%s"!</string>
     <string name="notification_game3">Потребна Вам је дневна доза слагалице? Играјте "%s"!</string>
     <string name="notification_game4">Има још много речи које треба открити и слагалица које треба решити! Наставите са "%s"!</string>
+    <string name="language_name">Српски</string>
 </resources>

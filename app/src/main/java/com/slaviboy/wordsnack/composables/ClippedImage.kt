@@ -13,9 +13,9 @@ import com.slaviboy.wordsnack.extensions.clipAsImageBitmap
 @Composable
 fun ClippedImage(
     width: Dp,
-    modifier: Modifier,
     clipData: ClipData,
-    imageType: ImageType
+    imageType: ImageType,
+    modifier: Modifier = Modifier
 ) {
     val bitmap = clipData.bitmap
     val clipConfig = clipData.clipConfigs[imageType.index]

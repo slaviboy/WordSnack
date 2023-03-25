@@ -199,4 +199,5 @@
     <string name="notification_game2">Ideje egy kis szünetnek...Játssz "%s"-et!</string>
     <string name="notification_game3">Szükséged van a napi szórakozásadagodra? Játssz "%s"-et!</string>
     <string name="notification_game4">Még rengeteg szót felfedezhetsz és feladványt oldhatsz meg! Folytasd a "%s"-et!</string>
+    <string name="language_name">Magyar</string>
 </resources>

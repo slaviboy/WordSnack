@@ -199,4 +199,5 @@
     <string name="notification_game2">It\'s time for a break... Play "%s"!</string>
     <string name="notification_game3">Need your daily dose of puzzle fun? Play "%s"!</string>
     <string name="notification_game4">There are still many words to discover and puzzles to solve! Continue with "%s"!</string>
+    <string name="language_name">English</string>
 </resources>

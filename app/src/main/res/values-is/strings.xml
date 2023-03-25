@@ -172,4 +172,5 @@
     <string name="notification_game2">Það er kominn tími á smá frí... Spilaðu "%s"!</string>
     <string name="notification_game3">Hvernig væri að spila smá þrautir? Prufaðu"%s"!</string>
     <string name="notification_game4">Það eru enn svo mörg orð óuppgötvuð og þrautir til að leysa! Haltu áfram með "%s"!</string>
+    <string name="language_name">íslenskur</string>
 </resources>

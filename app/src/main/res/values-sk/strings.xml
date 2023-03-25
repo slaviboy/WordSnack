@@ -200,4 +200,5 @@
     <string name="notification_game2">Je čas na prestávku...Hrajte "%s"!</string>
     <string name="notification_game3">Chcete svoju dennú dávku zábavnej puzzle? Hrajte "%s"!</string>
     <string name="notification_game4">Stále existuje mnoho slov a puzzle pre vyriešenie! Pokračujte s "%s"!</string>
+    <string name="language_name">Slovenský</string>
 </resources>

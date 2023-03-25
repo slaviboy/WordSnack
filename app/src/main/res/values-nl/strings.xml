@@ -200,4 +200,5 @@
     <string name="notification_game2">Het is tijd voor een pauze... Speel "%s"!</string>
     <string name="notification_game3">Heb je je dagelijkse portie puzzelplezier nodig? Speel "%s"!</string>
     <string name="notification_game4">Er zijn nog steeds veel woorden te ontdeken en puzzels op te lossen! Ga door met "%s"!</string>
+    <string name="language_name">Nederlandse</string>
 </resources>

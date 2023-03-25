@@ -200,4 +200,5 @@
     <string name="notification_game2">Nadszedł czas na przerwę... Zagraj w "%s"!</string>
     <string name="notification_game3">Potrzebujesz swojej codziennej dawki zabawy z łamigłówką? Zagraj w "%s"!</string>
     <string name="notification_game4">Jest jeszcze wiele słów do odkrycia i zagadek do rozwiązania! Kontynuuj z "%s"!</string>
+    <string name="language_name">Polski</string>
 </resources>

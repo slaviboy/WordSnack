@@ -174,4 +174,5 @@
     <string name="notification_game2">Altura de fazer uma pausa… Jogue "%s"!</string>
     <string name="notification_game3">Precisa da sua dose diária de diversão com puzzles? Jogue "%s"!</string>
     <string name="notification_game4">Existem ainda muitas palavras por descobrir e puzzles por solucionar! Continue a jogar "%s"!</string>
+    <string name="language_name">Português</string>
 </resources>

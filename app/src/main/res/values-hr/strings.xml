@@ -173,4 +173,5 @@
     <string name="notification_game2">Vrijeme je za pauzu..zaigraj "%s"!</string>
     <string name="notification_game3">Potrebna ti je dnevna doza zabave? Zaigraj "%s"!</string>
     <string name="notification_game4">Još ima mnogo riječi koje treba otkriti i zagonetki za riješiti! Nastavi s "%s"!</string>
+    <string name="language_name">Hrvatski</string>
 </resources>

@@ -172,4 +172,5 @@
     <string name="notification_game2">On aeg paus teha... Mängi mängu "%s"!</string>
     <string name="notification_game3">Vajad igapäevast puslede doosi? Mängi mängu "%s"!</string>
     <string name="notification_game4">Saab avastada veel paljusid sõnu ja lahendada puslesid! Jätka äpiga "%s"!</string>
+    <string name="language_name">Eesti</string>
 </resources>

@@ -172,4 +172,5 @@
     <string name="notification_game2">Laikas pertraukai... Žaiskite "%s"!</string>
     <string name="notification_game3">Reikia kasdienės įdomių galvosūkių dozės? Žaiskite "%s"!</string>
     <string name="notification_game4">Vis dar turite daugybę žodžių, kuriuos reikia atrasti, ir galvosūkių, kuriuos reikia išspręsti! Tęskite su "%s"!</string>
+    <string name="language_name">Lietuvių</string>
 </resources>

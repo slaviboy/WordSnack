@@ -3,6 +3,8 @@ package com.slaviboy.wordsnack.extensions
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import com.google.gson.Gson
 import com.slaviboy.wordsnack.entities.ClipConfig
 import com.slaviboy.wordsnack.entities.ClipData
@@ -35,7 +37,7 @@ fun AssetManager.readAsBitmap(
     return bitmap
 }
 
-fun AssetManager.getClipData(
+fun AssetManager.readAsClipData(
     gson: Gson,
     fileNames: String
 ): ClipData {
@@ -43,4 +45,12 @@ fun AssetManager.getClipData(
     val string = readAsText(fileNames)
     val clipConfig = gson.fromJson(string, Array<ClipConfig>::class.java)
     return ClipData(bitmap, clipConfig.toMutableList())
+}
+
+fun AssetManager.readAsImageBitmap(
+    fileName: String,
+    filePath: String = "img/",
+    fileType: String = "png"
+): ImageBitmap {
+    return readAsBitmap(fileName, filePath, fileType).asImageBitmap()
 }

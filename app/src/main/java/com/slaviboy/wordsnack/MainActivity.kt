@@ -8,12 +8,18 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import com.slaviboy.composeunits.initSize
 import com.slaviboy.wordsnack.destinations.HomeScreenComposableDestination
+import com.slaviboy.wordsnack.extensions.getCurrentLocale
 import com.slaviboy.wordsnack.extensions.transparentStatusBar
 import com.slaviboy.wordsnack.homescreen.HomeScreenViewModel
+import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var applicationPreferences: ApplicationPreferences
 
     private val homeScreenViewModel: HomeScreenViewModel by viewModels()
 
@@ -28,6 +34,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         transparentStatusBar()
         initSize()
+
+        applicationPreferences.setLocale(getCurrentLocale())
 
         setContent {
             DestinationsNavHost(

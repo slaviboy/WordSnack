@@ -1,6 +1,7 @@
 package com.slaviboy.wordsnack.composables
 
 import android.view.MotionEvent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentSize
@@ -12,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import com.slaviboy.composeunits.dw
+import com.slaviboy.wordsnack.entities.ClipButtonState
 import com.slaviboy.wordsnack.entities.ClipData
-import com.slaviboy.wordsnack.entities.ImageType
 import com.slaviboy.wordsnack.ui.theme.ButtonTextStyle
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -22,38 +25,57 @@ import com.slaviboy.wordsnack.ui.theme.ButtonTextStyle
 fun ClippedButton(
     text: String,
     width: Dp,
-    modifier: Modifier = Modifier,
     clipData: ClipData,
-    upBackgroundImageType: ImageType,
-    downBackgroundImageType: ImageType,
-    upIconImageType: ImageType? = null,
-    downIconImageType: ImageType? = null,
+    clipButtonState: ClipButtonState,
+    modifier: Modifier = Modifier,
+    background: Color = Color.Transparent,
+    offsetX: Dp = 0.dw,
+    offsetY: Dp = 0.dw,
+    textSize: TextUnit = TextUnit(width.value * 0.22f, type = TextUnitType.Sp),
     textColor: Color = Color.White,
     textShadowColor: Color = Color(0xC1000000),
     textShadowOffsetX: Dp = 0.dw,
-    textShadowOffsetY: Dp = 0.dw
+    textShadowOffsetY: Dp = width * -0.018f,
+    onClick: () -> Unit = {}
 ) {
-    var backgroundImageType by remember { mutableStateOf(upBackgroundImageType) }
+    var backgroundImageType by remember { mutableStateOf(clipButtonState.up) }
+    var iconImageType by remember { mutableStateOf(clipButtonState.iconUp) }
     Box(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier
+            .wrapContentSize()
+            //.align(alignment)
+            .offset(offsetX, offsetY)
+            .background(background),
         contentAlignment = Alignment.Center
     ) {
         ClippedImage(
             width = width,
-            modifier = modifier.pointerInteropFilter {
-                when (it.action) {
-                    MotionEvent.ACTION_DOWN -> backgroundImageType = downBackgroundImageType
-                    MotionEvent.ACTION_UP -> backgroundImageType = upBackgroundImageType
-                }
-                true
-            },
+            modifier = modifier
+                .pointerInteropFilter {
+                    when (it.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            backgroundImageType = clipButtonState.down
+                            clipButtonState.iconDown?.let {
+                                iconImageType = it
+                            }
+                        }
+
+                        MotionEvent.ACTION_UP -> {
+                            backgroundImageType = clipButtonState.up
+                            clipButtonState.iconUp?.let {
+                                iconImageType = it
+                            }
+                            onClick.invoke()
+                        }
+                    }
+                    true
+                },
             clipData = clipData,
             imageType = backgroundImageType
         )
-        upIconImageType?.let {
+        iconImageType?.let {
             ClippedImage(
                 width = width,
-                modifier = modifier,
                 clipData = clipData,
                 imageType = it
             )
@@ -61,13 +83,19 @@ fun ClippedButton(
         Text(
             text = text,
             style = ButtonTextStyle,
+            fontSize = textSize,
             color = textShadowColor
         )
         Text(
             text = text,
             style = ButtonTextStyle,
+            fontSize = textSize,
             color = textColor,
-            modifier = Modifier.offset(x = textShadowOffsetX, y = textShadowOffsetY)
+            modifier = Modifier
+                .offset(
+                    x = textShadowOffsetX,
+                    y = textShadowOffsetY
+                )
         )
     }
 }

@@ -200,4 +200,5 @@
     <string name="notification_game2">Det är dags för en paus... Spela "%s"!</string>
     <string name="notification_game3">Behöver du din dagliga dos av kul pussel? Spela "%s"!</string>
     <string name="notification_game4">Det finns fortfarande många ord att upptäcka och pussel att lösa! Fortsätta med "%s"!</string>
+    <string name="language_name">Svenska</string>
 </resources>

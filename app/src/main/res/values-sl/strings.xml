@@ -172,4 +172,5 @@
     <string name="notification_game2">Čas je za odmor... Igraj "%s"!</string>
     <string name="notification_game3">Potrebuješ svoj dnevni odmerek miselne zabave? Igraj "%s"!</string>
     <string name="notification_game4">Še vedno je veliko besed, ki jih moraš odkriti in razrešiti! Nadaljuj z "%s"!</string>
+    <string name="language_name">Slovenščina</string>
 </resources>
