@@ -1,0 +1,37 @@
+[
+  {
+    "name": "daily-bonus-title-en",
+    "x": 2,
+    "y": 2,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "extra-words-title-en",
+    "x": 2,
+    "y": 104,
+    "width": 479,
+    "height": 101
+  },
+  {
+    "name": "free-coins-title-en",
+    "x": 483,
+    "y": 105,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "settings-title-en",
+    "x": 1321,
+    "y": 105,
+    "width": 381,
+    "height": 100
+  },
+  {
+    "name": "shop-title-en",
+    "x": 902,
+    "y": 105,
+    "width": 417,
+    "height": 100
+  }
+]
