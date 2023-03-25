@@ -1,6 +1,7 @@
 package com.slaviboy.wordsnack.entities
 
 sealed class ImageType(open val index: Int)
+
 sealed class CommonImageType(override val index: Int) : ImageType(index) {
     object AppleIcon : CommonImageType(0)
     object ArrowLeft : CommonImageType(1)
@@ -122,4 +123,21 @@ sealed class CommonImageType(override val index: Int) : ImageType(index) {
     object SwitchKnob : CommonImageType(117)
     object TutorialLettersBg : CommonImageType(118)
     object WordlistBg : CommonImageType(119)
+}
+
+sealed class AnimationsImageType(override val index: Int) : ImageType(index) {
+    object ChapterBanner : AnimationsImageType(0)
+    object ChapterGreen : AnimationsImageType(1)
+    object ChapterSky : AnimationsImageType(2)
+    object ChapterSun : AnimationsImageType(3)
+    object ChapterTextEn : AnimationsImageType(4)
+    object LevelBanner : AnimationsImageType(5)
+    object LevelShine : AnimationsImageType(6)
+    object LevelStar : AnimationsImageType(7)
+    object LevelTextEn : AnimationsImageType(8)
+    object TransitionCircle : AnimationsImageType(9)
+    object TransitionStripe : AnimationsImageType(10)
+    object WordBanner : AnimationsImageType(11)
+    object WordEffect : AnimationsImageType(12)
+    object WordTextEn : AnimationsImageType(13)
 }
