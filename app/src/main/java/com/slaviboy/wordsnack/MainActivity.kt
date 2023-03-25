@@ -3,29 +3,19 @@ package com.slaviboy.wordsnack
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.google.gson.Gson
-import com.slaviboy.composeunits.dw
+import androidx.activity.viewModels
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.dependency
 import com.slaviboy.composeunits.initSize
-import com.slaviboy.wordsnack.composables.BlueButton
-import com.slaviboy.wordsnack.extensions.getClipData
+import com.slaviboy.wordsnack.destinations.HomeScreenComposableDestination
+import com.slaviboy.wordsnack.extensions.transparentStatusBar
+import com.slaviboy.wordsnack.homescreen.HomeScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.MessageFormat
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var gson: Gson
+    private val homeScreenViewModel: HomeScreenViewModel by viewModels()
 
     val supportedLanguages = listOf(
         "EN", "FR", "IT", "DE", "ES", "PT",
@@ -36,33 +26,18 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        transparentStatusBar()
         initSize()
 
-        val commonClipData = getClipData(gson, "common")
-
         setContent {
-            Image(
-                painter = painterResource(id = R.drawable.background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
+            DestinationsNavHost(
+                dependenciesContainerBuilder = {
+                    dependency(HomeScreenComposableDestination) { homeScreenViewModel }
+                },
+                navGraph = NavGraphs.root
             )
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                BlueButton(
-                    modifier = Modifier.background(Color.Blue),
-                    width = 0.4.dw,
-                    commonClipData = commonClipData
-                )
-            }
         }
     }
-
-
 }
 
 
