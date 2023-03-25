@@ -24,7 +24,7 @@ import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sw
 import com.slaviboy.wordsnack.R
 import com.slaviboy.wordsnack.composables.ClippedButton
-import com.slaviboy.wordsnack.destinations.GameScreenDestination
+import com.slaviboy.wordsnack.destinations.GameScreenComposableDestination
 import com.slaviboy.wordsnack.entities.ClipButtonState
 
 @Destination(start = true)
@@ -37,7 +37,7 @@ fun HomeScreenComposable(
     val animVisibleState = remember { MutableTransitionState(false).apply { targetState = true } }
 
     Image(
-        bitmap = viewModel.homeImageBitmap,
+        bitmap = viewModel.backgroundImageBitmap,
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -84,7 +84,7 @@ fun HomeScreenComposable(
                 clipData = viewModel.commonClipData,
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-                navigator.navigate(GameScreenDestination)
+                navigator.navigate(GameScreenComposableDestination)
             }
         }
     }

@@ -22,10 +22,18 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val logoSupportedLocaleCodes = listOf(
-        "cs", "da", "de", "el", "en",
-        "et", "fi", "hu", "in", "is",
-        "lv", "nl", "no", "pl", "ro",
-        "sl", "sv", "tr"
+        "cs", "da", "de", "el", "en", "et",
+        "fi", "hu", "in", "is", "lv", "nl",
+        "no", "pl", "ro", "sl", "sv", "tr"
+    )
+
+    private val supportedLanguages = listOf(
+        "en", "fr", "it", "de", "es", "pt",
+        "nl", "da", "fi", "is", "no", "sv",
+        "el", "cs", "sk", "hu", "pl", "ro",
+        "bg", "sl", "tr", "ru", "bs", "hr",
+        "sr", "et", "lt", "lv", "in", "be",
+        "uk"
     )
 
     private val locale: Locale
@@ -38,8 +46,8 @@ class HomeScreenViewModel @Inject constructor(
         assetManager.readAsClipData(gson, "common")
     )
 
-    val homeImageBitmap by mutableStateOf(
-        assetManager.readAsImageBitmap("home_background")
+    val backgroundImageBitmap by mutableStateOf(
+        assetManager.readAsImageBitmap("background_home")
     )
 
     val logoImageBitmap by mutableStateOf(
