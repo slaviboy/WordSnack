@@ -1,16 +1,13 @@
 package com.slaviboy.wordsnack.homescreen
 
 import android.content.res.AssetManager
-import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.slaviboy.wordsnack.entities.Language
 import com.slaviboy.wordsnack.extensions.readAsClipData
-import com.slaviboy.wordsnack.extensions.readAsBitmap
 import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel

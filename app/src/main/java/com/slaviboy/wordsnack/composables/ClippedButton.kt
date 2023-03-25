@@ -31,7 +31,9 @@ fun ClippedButton(
     background: Color = Color.Transparent,
     offsetX: Dp = 0.dw,
     offsetY: Dp = 0.dw,
-    textSize: TextUnit = TextUnit(width.value * 0.22f, type = TextUnitType.Sp),
+    textOffsetX: Dp = 0.dw,
+    textOffsetY: Dp = 0.dw,
+    textSize: TextUnit = TextUnit(width.value * 0.21f, type = TextUnitType.Sp),
     textColor: Color = Color.White,
     textShadowColor: Color = Color(0xC1000000),
     textShadowOffsetX: Dp = 0.dw,
@@ -43,7 +45,6 @@ fun ClippedButton(
     Box(
         modifier = modifier
             .wrapContentSize()
-            //.align(alignment)
             .offset(offsetX, offsetY)
             .background(background),
         contentAlignment = Alignment.Center
@@ -84,7 +85,9 @@ fun ClippedButton(
             text = text,
             style = ButtonTextStyle,
             fontSize = textSize,
-            color = textShadowColor
+            color = textShadowColor,
+            modifier = Modifier
+                .offset(textOffsetX, textOffsetY)
         )
         Text(
             text = text,
@@ -93,8 +96,8 @@ fun ClippedButton(
             color = textColor,
             modifier = Modifier
                 .offset(
-                    x = textShadowOffsetX,
-                    y = textShadowOffsetY
+                    x = textOffsetX + textShadowOffsetX,
+                    y = textOffsetY + textShadowOffsetY
                 )
         )
     }

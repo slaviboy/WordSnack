@@ -1,8 +1,6 @@
 package com.slaviboy.wordsnack.preferences
 
-import android.content.Context
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
