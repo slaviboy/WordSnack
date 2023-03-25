@@ -1,0 +1,62 @@
+
+texts-da.png
+size: 2048, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-da
+  rotate: false
+  xy: 2, 259
+  size: 738, 102
+  orig: 738, 102
+  offset: 0, 0
+  index: -1
+daily-bonus-title-da
+  rotate: false
+  xy: 2, 2
+  size: 439, 100
+  orig: 439, 100
+  offset: 0, 0
+  index: -1
+extra-words-title-da
+  rotate: false
+  xy: 1229, 266
+  size: 414, 100
+  orig: 414, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-da
+  rotate: false
+  xy: 748, 367
+  size: 479, 101
+  orig: 479, 101
+  offset: 0, 0
+  index: -1
+level-text-da
+  rotate: false
+  xy: 2, 363
+  size: 744, 105
+  orig: 744, 105
+  offset: 0, 0
+  index: -1
+settings-title-da
+  rotate: false
+  xy: 1229, 368
+  size: 439, 100
+  orig: 439, 100
+  offset: 0, 0
+  index: -1
+shop-title-da
+  rotate: false
+  xy: 748, 265
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1
+word-text-da
+  rotate: false
+  xy: 2, 104
+  size: 536, 153
+  orig: 536, 153
+  offset: 0, 0
+  index: -1

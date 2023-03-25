@@ -1,0 +1,132 @@
+
+texts-sr.png
+size: 2048, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-bs
+  rotate: false
+  xy: 2, 277
+  size: 690, 99
+  orig: 690, 99
+  offset: 0, 0
+  index: -1
+chapter-text-hr
+  rotate: false
+  xy: 2, 277
+  size: 690, 99
+  orig: 690, 99
+  offset: 0, 0
+  index: -1
+chapter-text-sr
+  rotate: false
+  xy: 760, 411
+  size: 685, 79
+  orig: 685, 79
+  offset: 0, 0
+  index: -1
+daily-bonus-title-bs
+  rotate: false
+  xy: 694, 206
+  size: 457, 100
+  orig: 457, 100
+  offset: 0, 0
+  index: -1
+daily-bonus-title-hr
+  rotate: false
+  xy: 694, 206
+  size: 457, 100
+  orig: 457, 100
+  offset: 0, 0
+  index: -1
+daily-bonus-title-sr
+  rotate: false
+  xy: 647, 104
+  size: 457, 100
+  orig: 457, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-bs
+  rotate: false
+  xy: 1447, 389
+  size: 524, 101
+  orig: 524, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-hr
+  rotate: false
+  xy: 1447, 389
+  size: 524, 101
+  orig: 524, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-sr
+  rotate: false
+  xy: 760, 308
+  size: 524, 101
+  orig: 524, 101
+  offset: 0, 0
+  index: -1
+level-text-bs
+  rotate: false
+  xy: 2, 168
+  size: 642, 107
+  orig: 642, 107
+  offset: 0, 0
+  index: -1
+level-text-hr
+  rotate: false
+  xy: 2, 378
+  size: 756, 112
+  orig: 756, 112
+  offset: 0, 0
+  index: -1
+level-text-sr
+  rotate: false
+  xy: 2, 70
+  size: 643, 96
+  orig: 643, 96
+  offset: 0, 0
+  index: -1
+settings-title-bs
+  rotate: false
+  xy: 1106, 83
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+settings-title-hr
+  rotate: false
+  xy: 1106, 83
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+settings-title-sr
+  rotate: false
+  xy: 647, 2
+  size: 456, 100
+  orig: 456, 100
+  offset: 0, 0
+  index: -1
+shop-title-bs
+  rotate: false
+  xy: 1286, 287
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1
+shop-title-hr
+  rotate: false
+  xy: 1286, 287
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1
+shop-title-sr
+  rotate: false
+  xy: 1153, 185
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1

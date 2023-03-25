@@ -1,0 +1,48 @@
+
+texts-ru.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-ru
+  rotate: false
+  xy: 2, 2
+  size: 691, 117
+  orig: 691, 117
+  offset: 0, 0
+  index: -1
+daily-bonus-title-ru
+  rotate: false
+  xy: 736, 25
+  size: 401, 100
+  orig: 401, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-ru
+  rotate: false
+  xy: 736, 127
+  size: 540, 101
+  orig: 540, 101
+  offset: 0, 0
+  index: -1
+level-text-ru
+  rotate: false
+  xy: 2, 121
+  size: 732, 107
+  orig: 732, 107
+  offset: 0, 0
+  index: -1
+settings-title-ru
+  rotate: false
+  xy: 1278, 26
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+shop-title-ru
+  rotate: false
+  xy: 1278, 128
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1

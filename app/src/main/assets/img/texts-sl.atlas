@@ -1,0 +1,48 @@
+
+texts-sl.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-sl
+  rotate: false
+  xy: 2, 2
+  size: 746, 105
+  orig: 746, 105
+  offset: 0, 0
+  index: -1
+daily-bonus-title-sl
+  rotate: false
+  xy: 1318, 115
+  size: 457, 100
+  orig: 457, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-sl
+  rotate: false
+  xy: 774, 114
+  size: 542, 101
+  orig: 542, 101
+  offset: 0, 0
+  index: -1
+level-text-sl
+  rotate: false
+  xy: 2, 109
+  size: 770, 106
+  orig: 770, 106
+  offset: 0, 0
+  index: -1
+settings-title-sl
+  rotate: false
+  xy: 1318, 13
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+shop-title-sl
+  rotate: false
+  xy: 774, 12
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1

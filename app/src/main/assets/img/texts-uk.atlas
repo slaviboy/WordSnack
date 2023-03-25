@@ -1,0 +1,48 @@
+
+texts-uk.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-uk
+  rotate: false
+  xy: 2, 100
+  size: 774, 106
+  orig: 774, 106
+  offset: 0, 0
+  index: -1
+daily-bonus-title-uk
+  rotate: false
+  xy: 1320, 105
+  size: 511, 101
+  orig: 511, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-uk
+  rotate: false
+  xy: 778, 105
+  size: 540, 101
+  orig: 540, 101
+  offset: 0, 0
+  index: -1
+level-text-uk
+  rotate: false
+  xy: 2, 8
+  size: 756, 90
+  orig: 756, 90
+  offset: 0, 0
+  index: -1
+settings-title-uk
+  rotate: false
+  xy: 778, 2
+  size: 490, 101
+  orig: 490, 101
+  offset: 0, 0
+  index: -1
+shop-title-uk
+  rotate: false
+  xy: 1270, 3
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1

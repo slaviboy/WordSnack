@@ -1,0 +1,100 @@
+[
+  {
+    "name": "chapter-banner",
+    "x": 704,
+    "y": 1197,
+    "width": 780,
+    "height": 253
+  },
+  {
+    "name": "chapter-green",
+    "x": 704,
+    "y": 1715,
+    "width": 750,
+    "height": 317
+  },
+  {
+    "name": "chapter-sky",
+    "x": 504,
+    "y": 489,
+    "width": 300,
+    "height": 300
+  },
+  {
+    "name": "chapter-sun",
+    "x": 2,
+    "y": 439,
+    "width": 500,
+    "height": 483
+  },
+  {
+    "name": "chapter-text-en",
+    "x": 504,
+    "y": 1093,
+    "width": 738,
+    "height": 102
+  },
+  {
+    "name": "level-banner",
+    "x": 704,
+    "y": 1452,
+    "width": 780,
+    "height": 261
+  },
+  {
+    "name": "level-shine",
+    "x": 2,
+    "y": 1426,
+    "width": 700,
+    "height": 606
+  },
+  {
+    "name": "level-star",
+    "x": 2,
+    "y": 2,
+    "width": 450,
+    "height": 435
+  },
+  {
+    "name": "level-text-en",
+    "x": 504,
+    "y": 791,
+    "width": 661,
+    "height": 101
+  },
+  {
+    "name": "transition-circle",
+    "x": 2,
+    "y": 924,
+    "width": 500,
+    "height": 500
+  },
+  {
+    "name": "transition-stripe",
+    "x": 1456,
+    "y": 1769,
+    "width": 300,
+    "height": 100
+  },
+  {
+    "name": "word-banner",
+    "x": 504,
+    "y": 894,
+    "width": 600,
+    "height": 197
+  },
+  {
+    "name": "word-effect",
+    "x": 1958,
+    "y": 1969,
+    "width": 63,
+    "height": 63
+  },
+  {
+    "name": "word-text-en",
+    "x": 1456,
+    "y": 1871,
+    "width": 500,
+    "height": 161
+  }
+]

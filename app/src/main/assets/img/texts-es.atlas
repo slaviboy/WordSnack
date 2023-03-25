@@ -1,0 +1,48 @@
+
+texts-es.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-es
+  rotate: false
+  xy: 2, 103
+  size: 784, 103
+  orig: 784, 103
+  offset: 0, 0
+  index: -1
+daily-bonus-title-es
+  rotate: false
+  xy: 1314, 106
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-es
+  rotate: false
+  xy: 788, 105
+  size: 524, 101
+  orig: 524, 101
+  offset: 0, 0
+  index: -1
+level-text-es
+  rotate: false
+  xy: 2, 2
+  size: 681, 99
+  orig: 681, 99
+  offset: 0, 0
+  index: -1
+settings-title-es
+  rotate: false
+  xy: 788, 3
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+shop-title-es
+  rotate: false
+  xy: 1733, 107
+  size: 291, 99
+  orig: 291, 99
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,55 @@
+
+texts-no.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-no
+  rotate: false
+  xy: 2, 112
+  size: 692, 102
+  orig: 692, 102
+  offset: 0, 0
+  index: -1
+daily-bonus-title-no
+  rotate: false
+  xy: 696, 11
+  size: 439, 100
+  orig: 439, 100
+  offset: 0, 0
+  index: -1
+extra-words-title-no
+  rotate: false
+  xy: 1163, 12
+  size: 414, 100
+  orig: 414, 100
+  offset: 0, 0
+  index: -1
+free-coins-title-no
+  rotate: false
+  xy: 696, 113
+  size: 465, 101
+  orig: 465, 101
+  offset: 0, 0
+  index: -1
+level-text-no
+  rotate: false
+  xy: 2, 2
+  size: 558, 108
+  orig: 558, 108
+  offset: 0, 0
+  index: -1
+settings-title-no
+  rotate: false
+  xy: 1163, 114
+  size: 456, 100
+  orig: 456, 100
+  offset: 0, 0
+  index: -1
+shop-title-no
+  rotate: false
+  xy: 1621, 114
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1

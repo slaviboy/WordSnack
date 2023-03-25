@@ -1,0 +1,48 @@
+
+texts-et.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-et
+  rotate: false
+  xy: 2, 116
+  size: 693, 118
+  orig: 693, 118
+  offset: 0, 0
+  index: -1
+daily-bonus-title-et
+  rotate: false
+  xy: 697, 133
+  size: 534, 101
+  orig: 534, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-et
+  rotate: false
+  xy: 697, 30
+  size: 465, 101
+  orig: 465, 101
+  offset: 0, 0
+  index: -1
+level-text-et
+  rotate: false
+  xy: 2, 2
+  size: 624, 112
+  orig: 624, 112
+  offset: 0, 0
+  index: -1
+settings-title-et
+  rotate: false
+  xy: 1164, 31
+  size: 381, 100
+  orig: 381, 100
+  offset: 0, 0
+  index: -1
+shop-title-et
+  rotate: false
+  xy: 1233, 133
+  size: 476, 101
+  orig: 476, 101
+  offset: 0, 0
+  index: -1

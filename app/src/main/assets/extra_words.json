@@ -1,0 +1,74 @@
+{
+  "1": {
+    "words": 5,
+    "reward": 15
+  },
+  "2": {
+    "words": 10,
+    "reward": 20
+  },
+  "3": {
+    "words": 10,
+    "reward": 25
+  },
+  "4": {
+    "words": 15,
+    "reward": 30
+  },
+  "5": {
+    "words": 15,
+    "reward": 35
+  },
+  "6": {
+    "words": 20,
+    "reward": 40
+  },
+  "7": {
+    "words": 20,
+    "reward": 45
+  },
+  "8": {
+    "words": 25,
+    "reward": 50
+  },
+  "9": {
+    "words": 25,
+    "reward": 55
+  },
+  "10": {
+    "words": 30,
+    "reward": 60
+  },
+  "11": {
+    "words": 30,
+    "reward": 65
+  },
+  "12": {
+    "words": 35,
+    "reward": 70
+  },
+  "13": {
+    "words": 35,
+    "reward": 75
+  },
+  "14": {
+    "words": 40,
+    "reward": 80
+  },
+  "15": {
+    "words": 40,
+    "reward": 85
+  },
+  "16": {
+    "words": 45,
+    "reward": 90
+  },
+  "17": {
+    "words": 45,
+    "reward": 95
+  },
+  "18": {
+    "words": 50,
+    "reward": 100
+  }
+}

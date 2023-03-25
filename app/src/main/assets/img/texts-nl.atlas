@@ -1,0 +1,62 @@
+
+texts-nl.png
+size: 2048, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-nl
+  rotate: false
+  xy: 2, 364
+  size: 738, 102
+  orig: 738, 102
+  offset: 0, 0
+  index: -1
+daily-bonus-title-nl
+  rotate: false
+  xy: 742, 365
+  size: 534, 101
+  orig: 534, 101
+  offset: 0, 0
+  index: -1
+extra-words-title-nl
+  rotate: false
+  xy: 2, 154
+  size: 515, 101
+  orig: 515, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-nl
+  rotate: false
+  xy: 742, 262
+  size: 465, 101
+  orig: 465, 101
+  offset: 0, 0
+  index: -1
+level-text-nl
+  rotate: false
+  xy: 2, 257
+  size: 697, 105
+  orig: 697, 105
+  offset: 0, 0
+  index: -1
+settings-title-nl
+  rotate: false
+  xy: 1209, 263
+  size: 410, 100
+  orig: 410, 100
+  offset: 0, 0
+  index: -1
+shop-title-nl
+  rotate: false
+  xy: 1278, 365
+  size: 476, 101
+  orig: 476, 101
+  offset: 0, 0
+  index: -1
+word-text-nl
+  rotate: false
+  xy: 2, 2
+  size: 436, 150
+  orig: 436, 150
+  offset: 0, 0
+  index: -1

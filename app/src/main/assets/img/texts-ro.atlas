@@ -1,0 +1,48 @@
+
+texts-ro.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+chapter-text-ro
+  rotate: false
+  xy: 2, 112
+  size: 757, 108
+  orig: 757, 108
+  offset: 0, 0
+  index: -1
+daily-bonus-title-ro
+  rotate: false
+  xy: 1287, 119
+  size: 465, 101
+  orig: 465, 101
+  offset: 0, 0
+  index: -1
+free-coins-title-ro
+  rotate: false
+  xy: 761, 119
+  size: 524, 101
+  orig: 524, 101
+  offset: 0, 0
+  index: -1
+level-text-ro
+  rotate: false
+  xy: 2, 2
+  size: 735, 108
+  orig: 735, 108
+  offset: 0, 0
+  index: -1
+settings-title-ro
+  rotate: false
+  xy: 1180, 18
+  size: 315, 99
+  orig: 315, 99
+  offset: 0, 0
+  index: -1
+shop-title-ro
+  rotate: false
+  xy: 761, 17
+  size: 417, 100
+  orig: 417, 100
+  offset: 0, 0
+  index: -1
