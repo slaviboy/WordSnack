@@ -14,6 +14,8 @@ object ApplicationDependencies {
     private const val daggerHilt = "com.google.dagger:hilt-android:${ApplicationDependencyVersions.daggerHilt}"
     private const val daggerHiltCompiler = "com.google.dagger:hilt-android-compiler:${ApplicationDependencyVersions.daggerHilt}"
     private const val gson = "com.google.code.gson:gson:${ApplicationDependencyVersions.gson}"
+    private const val raamcostaCore = "io.github.raamcosta.compose-destinations:core:${ApplicationDependencyVersions.raamcosta}"
+    private const val raamcostaKsp = "io.github.raamcosta.compose-destinations:ksp:${ApplicationDependencyVersions.raamcosta}"
 
     // Testing
     const val junit = "junit:junit:${ApplicationDependencyVersions.junit}"
@@ -31,7 +33,8 @@ object ApplicationDependencies {
         lifecycleViewModel,
         percentageUnits,
         daggerHilt,
-        gson
+        gson,
+        raamcostaCore
     )
 
     val dependenciesLibrary = arrayOf(
@@ -46,5 +49,9 @@ object ApplicationDependencies {
 
     val kapt = arrayOf(
         daggerHiltCompiler
+    )
+
+    val ksp = arrayOf(
+        raamcostaKsp
     )
 }

@@ -115,6 +115,7 @@ fun PluginAware.setLibraryPlugins() {
 fun Project.setDependencies() {
     dependencies {
         kapt(*ApplicationDependencies.kapt)
+        //ksp(*ApplicationDependencies.ksp)
     }
 }
 

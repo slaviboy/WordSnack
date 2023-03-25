@@ -6,6 +6,12 @@ fun DependencyHandler.kapt(vararg list: String) {
     }
 }
 
+fun DependencyHandler.ksp(vararg list: String) {
+    list.forEach { dependency ->
+        add("ksp", dependency)
+    }
+}
+
 fun DependencyHandler.implementation(vararg list: String) {
     list.forEach { dependency ->
         add("implementation", dependency)

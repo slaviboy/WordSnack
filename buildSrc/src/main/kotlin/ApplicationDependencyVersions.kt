@@ -13,6 +13,7 @@ object ApplicationDependencyVersions {
     const val composeMaterial3 = "1.1.0-alpha08"
     const val composeUI = "1.4.0-rc01"
     const val gson = "2.10.1"
+    const val raamcosta = "1.8.36-beta"
 
     // 3rd party library
     const val percentageUnits = "1.0.0"
