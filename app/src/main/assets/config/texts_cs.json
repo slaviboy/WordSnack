@@ -1,0 +1,114 @@
+[
+  {
+    "name": "chapter-text-cs",
+    "x": 2,
+    "y": 756,
+    "width": 736,
+    "height": 104
+  },
+  {
+    "name": "chapter-text-sk",
+    "x": 749,
+    "y": 866,
+    "width": 736,
+    "height": 104
+  },
+  {
+    "name": "daily-bonus-title-cs",
+    "x": 1487,
+    "y": 870,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "daily-bonus-title-sk",
+    "x": 2,
+    "y": 206,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "extra-words-title-cs",
+    "x": 2,
+    "y": 104,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "extra-words-title-sk",
+    "x": 2,
+    "y": 2,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "free-coins-title-cs",
+    "x": 749,
+    "y": 764,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "free-coins-title-sk",
+    "x": 1487,
+    "y": 768,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "level-text-cs",
+    "x": 2,
+    "y": 862,
+    "width": 745,
+    "height": 108
+  },
+  {
+    "name": "level-text-sk",
+    "x": 2,
+    "y": 645,
+    "width": 668,
+    "height": 109
+  },
+  {
+    "name": "settings-title-cs",
+    "x": 672,
+    "y": 560,
+    "width": 381,
+    "height": 100
+  },
+  {
+    "name": "settings-title-sk",
+    "x": 463,
+    "y": 458,
+    "width": 381,
+    "height": 100
+  },
+  {
+    "name": "shop-title-cs",
+    "x": 740,
+    "y": 662,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "shop-title-sk",
+    "x": 740,
+    "y": 662,
+    "width": 417,
+    "height": 100
+  },
+  {
+    "name": "word-text-cs",
+    "x": 2,
+    "y": 475,
+    "width": 459,
+    "height": 168
+  },
+  {
+    "name": "word-text-sk",
+    "x": 2,
+    "y": 308,
+    "width": 436,
+    "height": 165
+  }
+]
