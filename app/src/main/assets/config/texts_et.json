@@ -1,0 +1,44 @@
+[
+  {
+    "name": "chapter-text-et",
+    "x": 2,
+    "y": 116,
+    "width": 693,
+    "height": 118
+  },
+  {
+    "name": "daily-bonus-title-et",
+    "x": 697,
+    "y": 133,
+    "width": 534,
+    "height": 101
+  },
+  {
+    "name": "free-coins-title-et",
+    "x": 697,
+    "y": 30,
+    "width": 465,
+    "height": 101
+  },
+  {
+    "name": "level-text-et",
+    "x": 2,
+    "y": 2,
+    "width": 624,
+    "height": 112
+  },
+  {
+    "name": "settings-title-et",
+    "x": 1164,
+    "y": 31,
+    "width": 381,
+    "height": 100
+  },
+  {
+    "name": "shop-title-et",
+    "x": 1233,
+    "y": 133,
+    "width": 476,
+    "height": 101
+  }
+]
