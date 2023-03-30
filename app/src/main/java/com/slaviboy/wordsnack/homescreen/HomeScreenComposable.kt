@@ -69,8 +69,8 @@ fun HomeScreenComposable(
         modifier = Modifier
             .fillMaxSize(),
         visibleState = animVisibleState,
-        enter = slideInVertically { with(density) { 0.5.dw.roundToPx() } } +
-                fadeIn(initialAlpha = 0.0f, animationSpec = tween(durationMillis = 1000))
+        enter = slideInVertically(animationSpec = tween(durationMillis = 400)) { with(density) { 0.5.dw.roundToPx() } } +
+                fadeIn(initialAlpha = 0.0f, animationSpec = tween(durationMillis = 800))
     ) {
         Box(
             modifier = Modifier
@@ -91,7 +91,7 @@ fun HomeScreenComposable(
 
     AnimatedVisibility(
         visibleState = animVisibleState,
-        enter = slideInVertically { with(density) { 1.5.dw.roundToPx() } } +
+        enter = slideInVertically(animationSpec = tween(durationMillis = 430)) { with(density) { 1.5.dw.roundToPx() } } +
                 fadeIn(initialAlpha = 0.0f, animationSpec = tween(durationMillis = 1300))
     ) {
         Box(
