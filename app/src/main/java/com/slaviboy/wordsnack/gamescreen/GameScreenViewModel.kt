@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.slaviboy.wordsnack.extensions.readAsClipData
 import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,5 +20,9 @@ class GameScreenViewModel @Inject constructor(
 
     val backgroundImageBitmap by mutableStateOf(
         assetManager.readAsImageBitmap("background_game")
+    )
+
+    val commonClipData by mutableStateOf(
+        assetManager.readAsClipData(gson, "common")
     )
 }

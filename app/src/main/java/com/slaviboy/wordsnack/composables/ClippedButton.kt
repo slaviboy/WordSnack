@@ -4,6 +4,8 @@ import android.view.MotionEvent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -12,6 +14,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -23,7 +26,6 @@ import com.slaviboy.wordsnack.ui.theme.ButtonTextStyle
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ClippedButton(
-    text: String,
     width: Dp,
     clipData: ClipData,
     clipButtonState: ClipButtonState,
@@ -33,11 +35,16 @@ fun ClippedButton(
     offsetY: Dp = 0.dw,
     textOffsetX: Dp = 0.dw,
     textOffsetY: Dp = 0.dw,
+    text: String? = null,
+    textAlign: TextAlign = TextAlign.Center,
     textSize: TextUnit = TextUnit(width.value * 0.21f, type = TextUnitType.Sp),
     textColor: Color = Color.White,
     textShadowColor: Color = Color(0xC1000000),
     textShadowOffsetX: Dp = 0.dw,
     textShadowOffsetY: Dp = width * -0.018f,
+    iconWidth: Dp = 0.dw,
+    iconOffsetX: Dp = 0.dw,
+    iconOffsetY: Dp = 0.dw,
     onClick: () -> Unit = {}
 ) {
     var backgroundImageType by remember { mutableStateOf(clipButtonState.up) }
@@ -51,6 +58,8 @@ fun ClippedButton(
     ) {
         ClippedImage(
             width = width,
+            clipData = clipData,
+            imageType = backgroundImageType,
             modifier = modifier
                 .pointerInteropFilter {
                     when (it.action) {
@@ -70,35 +79,43 @@ fun ClippedButton(
                         }
                     }
                     true
-                },
-            clipData = clipData,
-            imageType = backgroundImageType
+                }
         )
+
         iconImageType?.let {
             ClippedImage(
-                width = width,
+                width = iconWidth,
                 clipData = clipData,
-                imageType = it
+                imageType = it,
+                modifier = Modifier
+                    .offset(iconOffsetX, iconOffsetY)
             )
         }
-        Text(
-            text = text,
-            style = ButtonTextStyle,
-            fontSize = textSize,
-            color = textShadowColor,
-            modifier = Modifier
-                .offset(textOffsetX, textOffsetY)
-        )
-        Text(
-            text = text,
-            style = ButtonTextStyle,
-            fontSize = textSize,
-            color = textColor,
-            modifier = Modifier
-                .offset(
-                    x = textOffsetX + textShadowOffsetX,
-                    y = textOffsetY + textShadowOffsetY
-                )
-        )
+
+        text?.let {
+            Text(
+                text = it,
+                textAlign = textAlign,
+                style = ButtonTextStyle,
+                fontSize = textSize,
+                color = textShadowColor,
+                modifier = Modifier
+                    .width(width)
+                    .offset(textOffsetX, textOffsetY)
+            )
+            Text(
+                text = it,
+                textAlign = textAlign,
+                style = ButtonTextStyle,
+                fontSize = textSize,
+                color = textColor,
+                modifier = Modifier
+                    .width(width)
+                    .offset(
+                        x = textOffsetX + textShadowOffsetX,
+                        y = textOffsetY + textShadowOffsetY
+                    )
+            )
+        }
     }
 }
