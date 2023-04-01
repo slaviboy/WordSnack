@@ -1,11 +1,6 @@
 package com.slaviboy.wordsnack.gamescreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,18 +14,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.slaviboy.composeunits.dh
@@ -40,7 +38,7 @@ import com.slaviboy.wordsnack.R
 import com.slaviboy.wordsnack.composables.AutoResizeText
 import com.slaviboy.wordsnack.composables.ClippedButton
 import com.slaviboy.wordsnack.composables.ClippedImage
-import com.slaviboy.wordsnack.destinations.GameScreenComposableDestination
+import com.slaviboy.wordsnack.composables.Letter
 import com.slaviboy.wordsnack.entities.ClipButtonState
 import com.slaviboy.wordsnack.entities.CommonImageType
 import com.slaviboy.wordsnack.entities.FontSizeRange
@@ -71,7 +69,12 @@ fun GameScreenComposable(
             boxScope = this
         )
 
-        WordsResultComposable(
+        WordsComposable(
+            viewModel = viewModel,
+            boxScope = this
+        )
+
+        AllowedLettersComposable(
             viewModel = viewModel,
             boxScope = this
         )
@@ -100,7 +103,38 @@ fun GameScreenComposable(
 }
 
 @Composable
-fun WordsResultComposable(
+fun AllowedLettersComposable(
+    viewModel: GameScreenViewModel,
+    boxScope: BoxScope
+) = with(boxScope) {
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .width(viewModel.allowedLettersBoxWidth)
+            .height(viewModel.allowedLettersBoxHeight)
+            .offset(y = (-0.2).dw)
+            .align(Alignment.BottomCenter)
+            //.background(Color.Red)
+    ) {
+        viewModel.allowedLetters.forEachIndexed { i, char ->
+            Letter(
+                text = char.toString().uppercase(),
+                width = viewModel.allowedLettersWidth,
+                clipData = viewModel.commonClipData,
+                modifier = Modifier
+                    .offset(
+                        x = viewModel.allowedLettersPosition[i].x,
+                        y = viewModel.allowedLettersPosition[i].y
+                    )
+                 .rotate(viewModel.allowedLettersAngles[i])
+            )
+        }
+    }
+}
+
+@Composable
+fun WordsComposable(
     viewModel: GameScreenViewModel,
     boxScope: BoxScope
 ) = with(boxScope) {

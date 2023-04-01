@@ -46,7 +46,8 @@ class MainActivity : ComponentActivity() {
 
         val locale = Locale("bg")
         gameScreenViewModel.changeLanguage(locale)
-        gameScreenViewModel.generateRandomWords()
+        gameScreenViewModel.generateAllowedLetters()
+        gameScreenViewModel.generateWords()
     }
 }
 

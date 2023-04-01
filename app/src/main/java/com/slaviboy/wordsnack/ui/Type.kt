@@ -11,3 +11,11 @@ val ButtonTextStyle = TextStyle(
     //lineHeight = 24.sp,
     //letterSpacing = 0.5.sp
 )
+
+val LetterTextStyle = TextStyle(
+    fontFamily = Nunito,
+    fontWeight = FontWeight.Black,
+    fontSize = 0.07.sw,
+    //lineHeight = 24.sp,
+    //letterSpacing = 0.5.sp
+)

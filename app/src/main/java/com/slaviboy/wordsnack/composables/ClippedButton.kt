@@ -49,6 +49,7 @@ fun ClippedButton(
 ) {
     var backgroundImageType by remember { mutableStateOf(clipButtonState.up) }
     var iconImageType by remember { mutableStateOf(clipButtonState.iconUp) }
+
     Box(
         modifier = modifier
             .wrapContentSize()
@@ -93,6 +94,7 @@ fun ClippedButton(
         }
 
         text?.let {
+
             Text(
                 text = it,
                 textAlign = textAlign,
@@ -103,6 +105,7 @@ fun ClippedButton(
                     .width(width)
                     .offset(textOffsetX, textOffsetY)
             )
+
             Text(
                 text = it,
                 textAlign = textAlign,

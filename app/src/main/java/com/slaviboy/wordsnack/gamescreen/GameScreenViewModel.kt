@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.min
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,14 +16,13 @@ import com.slaviboy.wordsnack.extensions.hasSameChars
 import com.slaviboy.wordsnack.extensions.readAsClipData
 import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.extensions.readAsText
+import com.slaviboy.wordsnack.extensions.rotateAroundPivot
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
-import java.util.Random
 import javax.inject.Inject
 
 @HiltViewModel
@@ -96,10 +96,8 @@ class GameScreenViewModel @Inject constructor(
             }
     }
 
-    fun generateRandomWords() = viewModelScope.launch {
+    fun generateWords() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            allowedLetters = "приятел".toCharArray()
-
             val matchesList = mutableListOf<String>()
             for (i in fullWordsList.indices) {
                 val hasSameChars = fullWordsList[i].hasSameChars(allowedLetters)
@@ -122,5 +120,38 @@ class GameScreenViewModel @Inject constructor(
             this@GameScreenViewModel.words = words
         }
     }
+
+    fun generateAllowedLetters() {
+        allowedLetters = "чобан".toCharArray() // приятели
+        allowedLettersWidth = 0.14.dw + 0.07.dw * (1f - allowedLetters.size / maxNumberOfLetters.toFloat())
+
+        val minDistanceFromPivot = allowedLettersWidth * 0.95f
+        val distanceFromPivot = minDistanceFromPivot + 0.2.dw * (allowedLetters.size / maxNumberOfLetters.toFloat())
+        val pivot = DpOffset(0.dw, 0.dw)
+        val position = DpOffset(pivot.x, pivot.y - distanceFromPivot)
+
+        val angles = mutableListOf<Float>()
+        val positions = mutableListOf<DpOffset>()
+        allowedLetters.forEachIndexed { i, _ ->
+            val angleAroundPivot = (i.toFloat() / allowedLetters.size) * 360f
+            val rotatePosition = position.rotateAroundPivot(pivot, angleAroundPivot)
+            val angle = if (angleAroundPivot > 180f) {
+                (0..9).random()
+            } else {
+                -(0..9).random()
+            }
+            angles.add(angle.toFloat())
+            positions.add(rotatePosition)
+        }
+        allowedLettersPosition = positions
+        allowedLettersAngles = angles
+    }
+
+
+    var allowedLettersBoxWidth by mutableStateOf(0.9.dw)
+    var allowedLettersBoxHeight by mutableStateOf(0.8.dw)
+    var allowedLettersWidth by mutableStateOf(0.18.dw)
+    var allowedLettersAngles by mutableStateOf<List<Float>>(listOf())
+    var allowedLettersPosition by mutableStateOf<List<DpOffset>>(listOf())
 
 }
