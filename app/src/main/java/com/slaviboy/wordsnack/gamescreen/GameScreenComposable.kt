@@ -1,21 +1,33 @@
 package com.slaviboy.wordsnack.gamescreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,7 +46,7 @@ import com.slaviboy.wordsnack.entities.CommonImageType
 import com.slaviboy.wordsnack.entities.FontSizeRange
 import com.slaviboy.wordsnack.ui.theme.ButtonTextStyle
 
-@Destination
+@Destination(start = true)
 @Composable
 fun GameScreenComposable(
     navigator: DestinationsNavigator,
@@ -59,18 +71,14 @@ fun GameScreenComposable(
             boxScope = this
         )
 
-        BottomBarComposable(
+        WordsResultComposable(
             viewModel = viewModel,
             boxScope = this
         )
 
-        ClippedImage(
-            width = 1.dw,
-            clipData = viewModel.commonClipData,
-            imageType = CommonImageType.WordlistBg,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .offset(y = 0.07.dh)
+        BottomBarComposable(
+            viewModel = viewModel,
+            boxScope = this
         )
 
         ClippedButton(
@@ -87,6 +95,52 @@ fun GameScreenComposable(
             textSize = 0.03.sw
         ) {
 
+        }
+    }
+}
+
+@Composable
+fun WordsResultComposable(
+    viewModel: GameScreenViewModel,
+    boxScope: BoxScope
+) = with(boxScope) {
+
+    ClippedImage(
+        width = 1.dw,
+        clipData = viewModel.commonClipData,
+        imageType = CommonImageType.WordlistBg,
+        modifier = Modifier
+            .align(Alignment.TopCenter)
+            .offset(y = 0.07.dh)
+    )
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .width(0.8.dw)
+            .height(0.55.dw)
+            .align(Alignment.TopCenter)
+            .offset(y = 0.1.dh)
+    ) {
+        viewModel.words.forEach { word ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                word.forEach { _ ->
+                    ClippedImage(
+                        width = viewModel.letterBoxWidth,
+                        clipData = viewModel.commonClipData,
+                        imageType = CommonImageType.LetterBox,
+                        modifier = Modifier
+                            .padding(
+                                horizontal = viewModel.letterBoxPaddingHorizontal,
+                                vertical = viewModel.letterBoxPaddingVertical
+                            )
+                    )
+                }
+            }
         }
     }
 }

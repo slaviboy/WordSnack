@@ -27,7 +27,7 @@ import com.slaviboy.wordsnack.composables.ClippedButton
 import com.slaviboy.wordsnack.destinations.GameScreenComposableDestination
 import com.slaviboy.wordsnack.entities.ClipButtonState
 
-@Destination(start = true)
+@Destination(/*start = true*/)
 @Composable
 fun HomeScreenComposable(
     navigator: DestinationsNavigator,

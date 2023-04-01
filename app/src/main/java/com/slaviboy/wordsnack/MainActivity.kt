@@ -15,6 +15,7 @@ import com.slaviboy.wordsnack.gamescreen.GameScreenViewModel
 import com.slaviboy.wordsnack.homescreen.HomeScreenViewModel
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +43,10 @@ class MainActivity : ComponentActivity() {
                 navGraph = NavGraphs.root
             )
         }
+
+        val locale = Locale("bg")
+        gameScreenViewModel.changeLanguage(locale)
+        gameScreenViewModel.generateRandomWords()
     }
 }
 
