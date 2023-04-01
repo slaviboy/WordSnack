@@ -1,22 +1,29 @@
 package com.slaviboy.wordsnack.gamescreen
 
 import android.content.res.AssetManager
+import android.graphics.PointF
+import android.view.MotionEvent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.min
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.slaviboy.composeunits.DpToPx
 import com.slaviboy.composeunits.dw
+import com.slaviboy.wordsnack.core.allTrue
+import com.slaviboy.wordsnack.core.distanceBetweenTwoPoints
 import com.slaviboy.wordsnack.extensions.getRandomItems
 import com.slaviboy.wordsnack.extensions.hasSameChars
 import com.slaviboy.wordsnack.extensions.readAsClipData
 import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.extensions.readAsText
 import com.slaviboy.wordsnack.extensions.rotateAroundPivot
+import com.slaviboy.wordsnack.extensions.setCurveThroughPoints
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +54,15 @@ class GameScreenViewModel @Inject constructor(
     var letterBoxPaddingHorizontal by mutableStateOf(0.dw)
     var letterBoxPaddingVertical by mutableStateOf(0.dw)
 
+    var allowedLettersBoxWidth by mutableStateOf(0.9.dw)
+    var allowedLettersBoxHeight by mutableStateOf(0.8.dw)
+    var allowedLettersWidth by mutableStateOf(0.18.dw)
+    var allowedLettersAngles by mutableStateOf<List<Float>>(listOf())
+    var allowedLettersPosition by mutableStateOf<List<DpOffset>>(listOf())
+
+    var passThroughCurvePoints by mutableStateOf<List<PointF>>(listOf())
+    var passThroughPath by mutableStateOf(Path())
+
     private val minNumberOfLetters = 2
     private val maxNumberOfLetters = 9
     private val maxNumberOfWords = 4
@@ -72,10 +88,6 @@ class GameScreenViewModel @Inject constructor(
         val sizePerWidth = width / numberOfLetterColumns
         val minSizePer = min(sizePerHeight, sizePerWidth)
         return min(minSizePer, 0.16.dw)
-    }
-
-    private fun allTrue(vararg booleans: Boolean): Boolean {
-        return booleans.all { it }
     }
 
     fun changeLanguage(locale: Locale) {
@@ -122,8 +134,8 @@ class GameScreenViewModel @Inject constructor(
     }
 
     fun generateAllowedLetters() {
-        allowedLetters = "чобан".toCharArray() // приятели
-        allowedLettersWidth = 0.14.dw + 0.07.dw * (1f - allowedLetters.size / maxNumberOfLetters.toFloat())
+        allowedLetters = "чобанин".toCharArray() // приятели
+        allowedLettersWidth = 0.16.dw + 0.07.dw * (1f - allowedLetters.size / maxNumberOfLetters.toFloat())
 
         val minDistanceFromPivot = allowedLettersWidth * 0.95f
         val distanceFromPivot = minDistanceFromPivot + 0.2.dw * (allowedLetters.size / maxNumberOfLetters.toFloat())
@@ -147,11 +159,48 @@ class GameScreenViewModel @Inject constructor(
         allowedLettersAngles = angles
     }
 
+    fun scrambleAllowedLetters() {
 
-    var allowedLettersBoxWidth by mutableStateOf(0.9.dw)
-    var allowedLettersBoxHeight by mutableStateOf(0.8.dw)
-    var allowedLettersWidth by mutableStateOf(0.18.dw)
-    var allowedLettersAngles by mutableStateOf<List<Float>>(listOf())
-    var allowedLettersPosition by mutableStateOf<List<DpOffset>>(listOf())
+    }
 
+    fun onMotionEvent(motionEvent: MotionEvent) {
+        when (motionEvent.action) {
+            MotionEvent.ACTION_UP -> {
+                passThroughCurvePoints = listOf()
+                passThroughPath = Path()
+            }
+
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                val x1 = motionEvent.x
+                val y1 = motionEvent.y
+                for (i in allowedLettersPosition.indices) {
+                    val position = allowedLettersPosition[i]
+                    val x2 = (position.x + allowedLettersBoxWidth / 2f).value.DpToPx
+                    val y2 = (position.y + allowedLettersBoxHeight / 2f).value.DpToPx
+
+                    val radius = allowedLettersWidth.value.DpToPx * 0.6f
+                    val isInside = distanceBetweenTwoPoints(x1, y1, x2, y2) < radius
+                    if (isInside) {
+                        val point = PointF(x2, y2)
+                        val points = passThroughCurvePoints.toMutableList()
+                        if (!points.contains(point)) {
+                            passThroughCurvePoints = points.also {
+                                it.add(point)
+                            }
+                        } else if (points.size > 1 && points[points.size - 2] == point) {
+                            passThroughCurvePoints = points.also {
+                                it.removeLast()
+                            }
+                        }
+                        break
+                    }
+                }
+
+                passThroughPath = Path().apply {
+                    val points = passThroughCurvePoints.toMutableList()
+                    setCurveThroughPoints(points.also { it.add(PointF(x1, y1)) })
+                }
+            }
+        }
+    }
 }

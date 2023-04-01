@@ -1,5 +1,6 @@
 package com.slaviboy.wordsnack.gamescreen
 
+import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,12 +18,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -102,6 +109,7 @@ fun GameScreenComposable(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AllowedLettersComposable(
     viewModel: GameScreenViewModel,
@@ -115,7 +123,11 @@ fun AllowedLettersComposable(
             .height(viewModel.allowedLettersBoxHeight)
             .offset(y = (-0.2).dw)
             .align(Alignment.BottomCenter)
-            //.background(Color.Red)
+            .pointerInteropFilter {
+                viewModel.onMotionEvent(it)
+                true
+            }
+        //.background(viewModel.bg)
     ) {
         viewModel.allowedLetters.forEachIndexed { i, char ->
             Letter(
@@ -127,7 +139,23 @@ fun AllowedLettersComposable(
                         x = viewModel.allowedLettersPosition[i].x,
                         y = viewModel.allowedLettersPosition[i].y
                     )
-                 .rotate(viewModel.allowedLettersAngles[i])
+                    .rotate(viewModel.allowedLettersAngles[i])
+            )
+        }
+
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            val width = size.width
+            drawPath(
+                path = viewModel.passThroughPath,
+                color = Color(0xCDFFFFFF),
+                style = Stroke(
+                    width = width * 0.028f,
+                    cap = StrokeCap.Round,
+                    join = StrokeJoin.Round
+                )
             )
         }
     }
