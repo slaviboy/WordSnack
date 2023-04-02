@@ -1,6 +1,10 @@
 package com.slaviboy.wordsnack.gamescreen
 
 import android.view.MotionEvent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,8 +19,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -132,8 +139,10 @@ fun AllowedLettersComposable(
         viewModel.allowedLetters.forEachIndexed { i, char ->
             Letter(
                 text = char.toString().uppercase(),
-                width = viewModel.allowedLettersWidth,
                 clipData = viewModel.commonClipData,
+                imageType = CommonImageType.LetterLarge,
+                shadowImageType = CommonImageType.LetterShadow,
+                width = viewModel.allowedLettersWidth,
                 modifier = Modifier
                     .offset(
                         x = viewModel.allowedLettersPosition[i].x,
@@ -156,6 +165,71 @@ fun AllowedLettersComposable(
                     cap = StrokeCap.Round,
                     join = StrokeJoin.Round
                 )
+            )
+        }
+    }
+
+    SelectedLetters(
+        viewModel = viewModel,
+        boxScope = this
+    )
+}
+
+@Composable
+fun SelectedLetters(
+    viewModel: GameScreenViewModel,
+    boxScope: BoxScope
+) = with(boxScope) {
+    if (viewModel.passThroughSelectedLetters.isEmpty()) return@with
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .wrapContentSize()
+            .align(Alignment.Center)
+            .offset(y = (-0.13).dw)
+    ) {
+        ClippedImage(
+            width = 0.3.dw,
+            clipData = viewModel.commonClipData,
+            imageType = CommonImageType.CurrentLettersLeft,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+        )
+
+        if (viewModel.allowedLetters.size > 6) {
+            ClippedImage(
+                width = 0.265.dw,
+                clipData = viewModel.commonClipData,
+                imageType = CommonImageType.CurrentLettersCenter,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+            )
+        }
+
+        ClippedImage(
+            width = 0.3.dw,
+            clipData = viewModel.commonClipData,
+            imageType = CommonImageType.CurrentLettersRight,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+        )
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .wrapContentSize()
+            .align(Alignment.Center)
+            .offset(y = (-0.14).dw)
+    ) {
+        viewModel.passThroughSelectedLetters.forEach {
+            Letter(
+                text = it.toString().uppercase(),
+                clipData = viewModel.commonClipData,
+                imageType = CommonImageType.LetterFixed,
+                width = 0.115.dw
             )
         }
     }

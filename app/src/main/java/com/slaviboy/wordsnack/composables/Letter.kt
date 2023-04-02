@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.TextUnitType
 import com.slaviboy.composeunits.dw
 import com.slaviboy.wordsnack.entities.ClipData
 import com.slaviboy.wordsnack.entities.CommonImageType
+import com.slaviboy.wordsnack.entities.ImageType
 import com.slaviboy.wordsnack.ui.theme.LetterTextStyle
 
 @Composable
 fun Letter(
     text: String,
     clipData: ClipData,
+    imageType: ImageType,
     modifier: Modifier = Modifier,
     width: Dp = 0.2.dw,
     textShadowWidth: Dp = width * 1.45f,
@@ -30,7 +32,8 @@ fun Letter(
     textOffsetY: Dp = width * -0.04f,
     textSize: TextUnit = TextUnit(width.value * 0.65f, type = TextUnitType.Sp),
     textShadowOffsetX: Dp = 0.dw,
-    textShadowOffsetY: Dp = width * -0.018f
+    textShadowOffsetY: Dp = width * -0.018f,
+    shadowImageType: ImageType? = null
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -38,16 +41,18 @@ fun Letter(
             .wrapContentSize()
     ) {
 
-        ClippedImage(
-            width = textShadowWidth,
-            clipData = clipData,
-            imageType = CommonImageType.LetterShadow
-        )
+        shadowImageType?.let {
+            ClippedImage(
+                width = textShadowWidth,
+                clipData = clipData,
+                imageType = it
+            )
+        }
 
         ClippedImage(
             width = width,
             clipData = clipData,
-            imageType = CommonImageType.LetterLarge
+            imageType = imageType
         )
 
         Text(

@@ -3,8 +3,10 @@ package com.slaviboy.wordsnack.gamescreen
 import android.content.res.AssetManager
 import android.graphics.PointF
 import android.view.MotionEvent
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
@@ -39,6 +41,8 @@ class GameScreenViewModel @Inject constructor(
     private val applicationPreferences: ApplicationPreferences
 ) : ViewModel() {
 
+    var showAllowedLettersResult = MutableTransitionState(false)
+
     val backgroundImageBitmap by mutableStateOf(
         assetManager.readAsImageBitmap("background_game")
     )
@@ -60,7 +64,8 @@ class GameScreenViewModel @Inject constructor(
     var allowedLettersAngles by mutableStateOf<List<Float>>(listOf())
     var allowedLettersPosition by mutableStateOf<List<DpOffset>>(listOf())
 
-    var passThroughCurvePoints by mutableStateOf<List<PointF>>(listOf())
+    private var passThroughCurvePoints: MutableList<PointF> = mutableListOf()
+    var passThroughSelectedLetters by mutableStateOf<List<Char>>(listOf())
     var passThroughPath by mutableStateOf(Path())
 
     private val minNumberOfLetters = 2
@@ -166,7 +171,8 @@ class GameScreenViewModel @Inject constructor(
     fun onMotionEvent(motionEvent: MotionEvent) {
         when (motionEvent.action) {
             MotionEvent.ACTION_UP -> {
-                passThroughCurvePoints = listOf()
+                passThroughCurvePoints = mutableListOf()
+                passThroughSelectedLetters = listOf()
                 passThroughPath = Path()
             }
 
@@ -182,15 +188,14 @@ class GameScreenViewModel @Inject constructor(
                     val isInside = distanceBetweenTwoPoints(x1, y1, x2, y2) < radius
                     if (isInside) {
                         val point = PointF(x2, y2)
-                        val points = passThroughCurvePoints.toMutableList()
+                        val points = passThroughCurvePoints
+                        val selectedLetters = passThroughSelectedLetters.toMutableList()
                         if (!points.contains(point)) {
-                            passThroughCurvePoints = points.also {
-                                it.add(point)
-                            }
+                            points.add(point)
+                            passThroughSelectedLetters = selectedLetters.also { it.add(allowedLetters[i]) }
                         } else if (points.size > 1 && points[points.size - 2] == point) {
-                            passThroughCurvePoints = points.also {
-                                it.removeLast()
-                            }
+                            points.removeLast()
+                            passThroughSelectedLetters = selectedLetters.also { it.removeLast() }
                         }
                         break
                     }
@@ -202,5 +207,6 @@ class GameScreenViewModel @Inject constructor(
                 }
             }
         }
+        showAllowedLettersResult.targetState = passThroughCurvePoints.isNotEmpty()
     }
 }
