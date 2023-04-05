@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Word Snack</string>
+    <string name="app_name">Пикник с думи</string>
     <string name="word">Дума</string>
     <string name="dialog_ok">Добре</string>
     <string name="dialog_cancel">Отказ</string>
