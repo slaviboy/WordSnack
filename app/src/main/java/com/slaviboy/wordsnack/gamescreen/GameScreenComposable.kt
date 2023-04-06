@@ -1,13 +1,7 @@
 package com.slaviboy.wordsnack.gamescreen
 
-import android.view.MotionEvent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -19,30 +13,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.slaviboy.composeunits.dh
@@ -53,6 +38,7 @@ import com.slaviboy.wordsnack.composables.AutoResizeText
 import com.slaviboy.wordsnack.composables.ClippedButton
 import com.slaviboy.wordsnack.composables.ClippedImage
 import com.slaviboy.wordsnack.composables.Letter
+import com.slaviboy.wordsnack.destinations.HomeScreenComposableDestination
 import com.slaviboy.wordsnack.entities.ClipButtonState
 import com.slaviboy.wordsnack.entities.CommonImageType
 import com.slaviboy.wordsnack.entities.FontSizeRange
@@ -99,7 +85,7 @@ fun GameScreenComposable(
         )
 
         ClippedButton(
-            offsetX = (-0.005).dw,
+            offsetX = (-0.04).dw,
             offsetY = (0.05).dw,
             width = 0.16.dw,
             iconWidth = 0.11.dw,
@@ -107,11 +93,13 @@ fun GameScreenComposable(
             clipButtonState = ClipButtonState.ShareButtonState,
             clipData = viewModel.commonClipData,
             modifier = Modifier.align(Alignment.CenterEnd),
-            text = stringResource(id = R.string.game_ask_friends).uppercase(),
+            text = stringResource(id = R.string.game_ask_friends)
+                .uppercase()
+                .replace(' ', '\n'),
             textOffsetY = (0.09).dw,
             textSize = 0.03.sw
         ) {
-
+            navigator.navigate(HomeScreenComposableDestination)
         }
     }
 }

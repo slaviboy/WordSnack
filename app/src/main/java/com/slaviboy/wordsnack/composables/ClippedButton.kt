@@ -4,9 +4,8 @@ import android.view.MotionEvent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -94,7 +93,6 @@ fun ClippedButton(
         }
 
         text?.let {
-
             Text(
                 text = it,
                 textAlign = textAlign,
@@ -102,10 +100,9 @@ fun ClippedButton(
                 fontSize = textSize,
                 color = textShadowColor,
                 modifier = Modifier
-                    .width(width)
+                    .wrapContentWidth()
                     .offset(textOffsetX, textOffsetY)
             )
-
             Text(
                 text = it,
                 textAlign = textAlign,
@@ -113,7 +110,7 @@ fun ClippedButton(
                 fontSize = textSize,
                 color = textColor,
                 modifier = Modifier
-                    .width(width)
+                    .wrapContentWidth()
                     .offset(
                         x = textOffsetX + textShadowOffsetX,
                         y = textOffsetY + textShadowOffsetY
