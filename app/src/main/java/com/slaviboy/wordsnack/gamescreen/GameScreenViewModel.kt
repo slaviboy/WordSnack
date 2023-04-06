@@ -67,6 +67,8 @@ class GameScreenViewModel @Inject constructor(
     private var passThroughCurvePoints: MutableList<PointF> = mutableListOf()
     var passThroughSelectedLetters by mutableStateOf<List<Char>>(listOf())
     var passThroughPath by mutableStateOf(Path())
+    var passThroughSelectedLetterWidth by mutableStateOf(0.115.dw)
+    var passThroughSelectedLettersBoxWidth by mutableStateOf(0.dw)
 
     private val minNumberOfLetters = 2
     private val maxNumberOfLetters = 9
@@ -207,6 +209,10 @@ class GameScreenViewModel @Inject constructor(
                 }
             }
         }
+        val passThroughSelectedLettersBoxOffset = 0.12.dw
+        passThroughSelectedLettersBoxWidth = passThroughSelectedLetterWidth *
+                Math.max(2, passThroughSelectedLetters.size) +
+                passThroughSelectedLettersBoxOffset
         showAllowedLettersResult.targetState = passThroughCurvePoints.isNotEmpty()
     }
 }

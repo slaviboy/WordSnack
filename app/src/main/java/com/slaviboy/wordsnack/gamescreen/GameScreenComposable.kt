@@ -2,6 +2,7 @@ package com.slaviboy.wordsnack.gamescreen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -169,38 +172,42 @@ fun SelectedLetters(
     boxScope: BoxScope
 ) = with(boxScope) {
     if (viewModel.passThroughSelectedLetters.isEmpty()) return@with
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
-            .wrapContentSize()
+            .wrapContentHeight()
+            .width(viewModel.passThroughSelectedLettersBoxWidth)
             .align(Alignment.Center)
             .offset(y = (-0.13).dw)
     ) {
-        ClippedImage(
-            width = 0.3.dw,
-            clipData = viewModel.commonClipData,
-            imageType = CommonImageType.CurrentLettersLeft,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-        )
-
-        if (viewModel.allowedLetters.size > 6) {
+        if (viewModel.passThroughSelectedLetters.size > 2) {
             ClippedImage(
-                width = 0.265.dw,
+                height = 0.2.dw,
+                width = (viewModel.passThroughSelectedLettersBoxWidth - 0.1.dw),
                 clipData = viewModel.commonClipData,
                 imageType = CommonImageType.CurrentLettersCenter,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.Center)
             )
         }
 
         ClippedImage(
-            width = 0.3.dw,
+            height = 0.2.dw,
+            clipData = viewModel.commonClipData,
+            imageType = CommonImageType.CurrentLettersLeft,
+            contentScale = ContentScale.FillHeight,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+        )
+
+        ClippedImage(
+            height = 0.2.dw,
             clipData = viewModel.commonClipData,
             imageType = CommonImageType.CurrentLettersRight,
+            contentScale = ContentScale.FillHeight,
             modifier = Modifier
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterEnd)
         )
     }
 
@@ -210,14 +217,14 @@ fun SelectedLetters(
         modifier = Modifier
             .wrapContentSize()
             .align(Alignment.Center)
-            .offset(y = (-0.14).dw)
+            .offset(x = (-0.01).dw, y = (-0.14).dw)
     ) {
         viewModel.passThroughSelectedLetters.forEach {
             Letter(
                 text = it.toString().uppercase(),
                 clipData = viewModel.commonClipData,
                 imageType = CommonImageType.LetterFixed,
-                width = 0.115.dw
+                width = viewModel.passThroughSelectedLetterWidth
             )
         }
     }

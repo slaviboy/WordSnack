@@ -9,4 +9,7 @@ data class ClipConfig(
 ) {
     val heightToWidth: Float
         get() = height / width.toFloat()
+
+    val widthToHeight: Float
+        get() = width / height.toFloat()
 }
