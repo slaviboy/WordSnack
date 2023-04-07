@@ -1,9 +1,12 @@
 package com.slaviboy.wordsnack.gamescreen
 
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
 import android.content.res.AssetManager
 import android.graphics.PointF
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -26,9 +29,12 @@ import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.extensions.readAsText
 import com.slaviboy.wordsnack.extensions.rotateAroundPivot
 import com.slaviboy.wordsnack.extensions.setCurveThroughPoints
+import com.slaviboy.wordsnack.interpolators.Ease
+import com.slaviboy.wordsnack.interpolators.EasingInterpolator
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -65,6 +71,7 @@ class GameScreenViewModel @Inject constructor(
     var allowedLettersPosition by mutableStateOf<List<DpOffset>>(listOf())
 
     private var passThroughCurvePoints: MutableList<PointF> = mutableListOf()
+    private var passThroughSelectedLettersIndices: MutableList<Int> = mutableListOf()
     var passThroughSelectedLetters by mutableStateOf<List<Char>>(listOf())
     var passThroughPath by mutableStateOf(Path())
     var passThroughSelectedLetterWidth by mutableStateOf(0.115.dw)
@@ -170,49 +177,99 @@ class GameScreenViewModel @Inject constructor(
 
     }
 
+    var passThroughScaleAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
+        ValueAnimator.ofFloat(1f, 1.07f).apply {
+            duration = 150
+            interpolator = EasingInterpolator(Ease.ElasticInOut)
+            addUpdateListener {
+                passThroughScale[i] = it.animatedValue as Float
+            }
+        }
+    }
+
+    val passThroughScale = mutableStateListOf<Float>(
+        *FloatArray(maxNumberOfLetters) {
+            1f
+        }.toTypedArray()
+    )
+
     fun onMotionEvent(motionEvent: MotionEvent) {
-        when (motionEvent.action) {
-            MotionEvent.ACTION_UP -> {
-                passThroughCurvePoints = mutableListOf()
-                passThroughSelectedLetters = listOf()
-                passThroughPath = Path()
+
+        fun changeSelectedLetters(): Pair<Int, Boolean> {
+            val x1 = motionEvent.x
+            val y1 = motionEvent.y
+            var pair = Pair(-1, false)
+            for (i in allowedLettersPosition.indices) {
+                val position = allowedLettersPosition[i]
+                val x2 = (position.x + allowedLettersBoxWidth / 2f).value.DpToPx
+                val y2 = (position.y + allowedLettersBoxHeight / 2f).value.DpToPx
+
+                val radius = allowedLettersWidth.value.DpToPx * 0.6f
+                val isInside = distanceBetweenTwoPoints(x1, y1, x2, y2) < radius
+                if (isInside) {
+                    val point = PointF(x2, y2)
+                    val points = passThroughCurvePoints
+                    val selectedLetters = passThroughSelectedLetters.toMutableList()
+                    if (!points.contains(point)) {
+                        pair = Pair(i, true)
+                        points.add(point)
+                        passThroughSelectedLettersIndices.add(i)
+                        passThroughSelectedLetters = selectedLetters.also { it.add(allowedLetters[i]) }
+                    } else if (points.size > 1 && points[points.size - 2] == point) {
+                        pair = Pair(passThroughSelectedLettersIndices.last(), false)
+                        points.removeLast()
+                        passThroughSelectedLettersIndices.removeLast()
+                        passThroughSelectedLetters = selectedLetters.also { it.removeLast() }
+                    }
+                    break
+                }
             }
 
-            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                val x1 = motionEvent.x
-                val y1 = motionEvent.y
-                for (i in allowedLettersPosition.indices) {
-                    val position = allowedLettersPosition[i]
-                    val x2 = (position.x + allowedLettersBoxWidth / 2f).value.DpToPx
-                    val y2 = (position.y + allowedLettersBoxHeight / 2f).value.DpToPx
+            passThroughPath = Path().apply {
+                val points = passThroughCurvePoints.toMutableList()
+                setCurveThroughPoints(points.also { it.add(PointF(x1, y1)) })
+            }
 
-                    val radius = allowedLettersWidth.value.DpToPx * 0.6f
-                    val isInside = distanceBetweenTwoPoints(x1, y1, x2, y2) < radius
-                    if (isInside) {
-                        val point = PointF(x2, y2)
-                        val points = passThroughCurvePoints
-                        val selectedLetters = passThroughSelectedLetters.toMutableList()
-                        if (!points.contains(point)) {
-                            points.add(point)
-                            passThroughSelectedLetters = selectedLetters.also { it.add(allowedLetters[i]) }
-                        } else if (points.size > 1 && points[points.size - 2] == point) {
-                            points.removeLast()
-                            passThroughSelectedLetters = selectedLetters.also { it.removeLast() }
-                        }
-                        break
+            return pair
+        }
+
+        fun clearSelectedLetters() {
+            passThroughCurvePoints = mutableListOf()
+            passThroughSelectedLetters = listOf()
+            passThroughPath = Path()
+            passThroughSelectedLettersIndices = mutableListOf()
+        }
+
+        when (motionEvent.action) {
+            MotionEvent.ACTION_UP -> {
+                passThroughSelectedLettersIndices.forEach {
+                    passThroughScaleAnimators[it].apply {
+                        setFloatValues(1.08f, 0.95f, 1f)
+                        interpolator = EasingInterpolator(Ease.CubicOut)
+                        start()
                     }
                 }
+                clearSelectedLetters()
+            }
 
-                passThroughPath = Path().apply {
-                    val points = passThroughCurvePoints.toMutableList()
-                    setCurveThroughPoints(points.also { it.add(PointF(x1, y1)) })
+            MotionEvent.ACTION_DOWN,
+            MotionEvent.ACTION_MOVE -> {
+                val (index, isAdded) = changeSelectedLetters()
+                if (index == -1) return
+                passThroughScaleAnimators[index].apply {
+                    if (isAdded) {
+                        setFloatValues(1f, 1.15f, 1.08f)
+                    } else {
+                        setFloatValues(1.08f, 1f)
+                    }
+                    start()
                 }
             }
         }
         val passThroughSelectedLettersBoxOffset = 0.12.dw
-        passThroughSelectedLettersBoxWidth = passThroughSelectedLetterWidth *
+        passThroughSelectedLettersBoxWidth = (passThroughSelectedLetterWidth *
                 Math.max(2, passThroughSelectedLetters.size) +
-                passThroughSelectedLettersBoxOffset
+                passThroughSelectedLettersBoxOffset)
         showAllowedLettersResult.targetState = passThroughCurvePoints.isNotEmpty()
     }
 }
