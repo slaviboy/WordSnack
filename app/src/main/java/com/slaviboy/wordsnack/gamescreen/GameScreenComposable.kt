@@ -1,18 +1,7 @@
 package com.slaviboy.wordsnack.gamescreen
 
-import androidx.compose.animation.core.EaseInBounce
-import androidx.compose.animation.core.EaseInElastic
-import androidx.compose.animation.core.EaseOutBounce
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -26,13 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -142,7 +125,6 @@ fun AllowedLettersComposable(
                 viewModel.onMotionEvent(it)
                 true
             }
-        //.background(viewModel.bg)
     ) {
         viewModel.allowedLetters.forEachIndexed { i, char ->
             Letter(
@@ -153,10 +135,10 @@ fun AllowedLettersComposable(
                 width = viewModel.allowedLettersWidth,
                 modifier = Modifier
                     .offset(
-                        x = viewModel.allowedLettersPosition[i].x,
-                        y = viewModel.allowedLettersPosition[i].y
+                        x = viewModel.shufflePosition[i].x,
+                        y = viewModel.shufflePosition[i].y
                     )
-                    .rotate(viewModel.allowedLettersAngles[i])
+                    .rotate(viewModel.shuffleAngles[i])
                     .scale(viewModel.passThroughScale[i])
             )
         }
@@ -445,6 +427,6 @@ fun BottomBarComposable(
         clipData = viewModel.commonClipData,
         modifier = Modifier.align(Alignment.BottomEnd)
     ) {
-
+        viewModel.shuffleAllowedLetters()
     }
 }

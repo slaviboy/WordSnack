@@ -1,12 +1,11 @@
 package com.slaviboy.wordsnack.gamescreen
 
-import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.res.AssetManager
 import android.graphics.PointF
+import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -15,6 +14,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.min
+import androidx.core.animation.doOnEnd
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
@@ -24,17 +24,18 @@ import com.slaviboy.wordsnack.core.allTrue
 import com.slaviboy.wordsnack.core.distanceBetweenTwoPoints
 import com.slaviboy.wordsnack.extensions.getRandomItems
 import com.slaviboy.wordsnack.extensions.hasSameChars
+import com.slaviboy.wordsnack.extensions.positionBetweenPivotAtDistance
 import com.slaviboy.wordsnack.extensions.readAsClipData
 import com.slaviboy.wordsnack.extensions.readAsImageBitmap
 import com.slaviboy.wordsnack.extensions.readAsText
 import com.slaviboy.wordsnack.extensions.rotateAroundPivot
 import com.slaviboy.wordsnack.extensions.setCurveThroughPoints
+import com.slaviboy.wordsnack.extensions.shuffle
 import com.slaviboy.wordsnack.interpolators.Ease
 import com.slaviboy.wordsnack.interpolators.EasingInterpolator
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -83,6 +84,8 @@ class GameScreenViewModel @Inject constructor(
 
     private val currentLevel = 1
     private var fullWordsList: List<CharArray> = listOf()
+
+    private val pivot = DpOffset(0.dw, 0.dw)
 
     private fun adjustLetterBox(words: List<String>) {
         val numberOfLetterRows = words.size
@@ -147,13 +150,30 @@ class GameScreenViewModel @Inject constructor(
         }
     }
 
+    var generatedWord: String = ""
+
     fun generateAllowedLetters() {
-        allowedLetters = "чобанин".toCharArray() // приятели
+        generatedWord = "чобанин"
+        shuffle()
+
+        allowedLettersPosition.forEachIndexed { i, dpOffset ->
+            shufflePosition[i] = dpOffset
+        }
+        allowedLettersAngles.forEachIndexed { i, float ->
+            shuffleAngles[i] = float
+        }
+    }
+
+    fun shuffleAllowedLetters() {
+        shuffleAnimator.start()
+    }
+
+    private fun shuffle() {
+        allowedLetters = generatedWord.shuffle().toCharArray()
         allowedLettersWidth = 0.16.dw + 0.07.dw * (1f - allowedLetters.size / maxNumberOfLetters.toFloat())
 
         val minDistanceFromPivot = allowedLettersWidth * 0.95f
         val distanceFromPivot = minDistanceFromPivot + 0.2.dw * (allowedLetters.size / maxNumberOfLetters.toFloat())
-        val pivot = DpOffset(0.dw, 0.dw)
         val position = DpOffset(pivot.x, pivot.y - distanceFromPivot)
 
         val angles = mutableListOf<Float>()
@@ -165,19 +185,15 @@ class GameScreenViewModel @Inject constructor(
                 (0..9).random()
             } else {
                 -(0..9).random()
-            }
-            angles.add(angle.toFloat())
+            }.toFloat()
+            angles.add(angle)
             positions.add(rotatePosition)
         }
         allowedLettersPosition = positions
         allowedLettersAngles = angles
     }
 
-    fun scrambleAllowedLetters() {
-
-    }
-
-    var passThroughScaleAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
+    private var passThroughScaleAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(1f, 1.07f).apply {
             duration = 150
             interpolator = EasingInterpolator(Ease.ElasticInOut)
@@ -187,7 +203,46 @@ class GameScreenViewModel @Inject constructor(
         }
     }
 
+    private var shuffleAnimator = ValueAnimator.ofFloat(0f, 1.3f, 0f).apply {
+        duration = 800
+        addUpdateListener {
+            val value = it.animatedValue as Float
+            for (i in allowedLetters.indices) {
+                shufflePosition[i] = allowedLettersPosition[i]
+                    .positionBetweenPivotAtDistance(
+                        pivot = pivot,
+                        factor = value
+                    )
+                shuffleAngles[i] = value * 360f * allowedLettersAngles[i]
+            }
+
+            if (it.currentPlayTime > it.duration / 2 &&
+                !isShuffling
+            ) {
+                shuffle()
+                isShuffling = true
+            }
+        }
+        doOnEnd {
+            isShuffling = false
+        }
+    }
+
+    private var isShuffling: Boolean = false
+
     val passThroughScale = mutableStateListOf<Float>(
+        *FloatArray(maxNumberOfLetters) {
+            1f
+        }.toTypedArray()
+    )
+
+    val shufflePosition = mutableStateListOf<DpOffset>(
+        *Array(maxNumberOfLetters) {
+            DpOffset(0.dw, 0.dw)
+        }
+    )
+
+    val shuffleAngles = mutableStateListOf<Float>(
         *FloatArray(maxNumberOfLetters) {
             1f
         }.toTypedArray()
