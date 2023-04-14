@@ -3,9 +3,9 @@ package com.slaviboy.wordsnack.gamescreen
 import android.animation.ValueAnimator
 import android.content.res.AssetManager
 import android.graphics.PointF
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.core.animation.doOnEnd
 import androidx.lifecycle.ViewModel
@@ -195,11 +196,79 @@ class GameScreenViewModel @Inject constructor(
 
     private var passThroughScaleAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(1f, 1.07f).apply {
-            duration = 150
-            interpolator = EasingInterpolator(Ease.ElasticInOut)
+            duration = 250
+            interpolator = EasingInterpolator(Ease.BounceInOut)
             addUpdateListener {
                 passThroughScale[i] = it.animatedValue as Float
             }
+        }
+    }
+
+    private var passThroughShakeAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
+        ValueAnimator.ofFloat(0f, 1f, 0f, -1f, 0f).apply {
+            duration = 150
+            repeatCount = 1
+            interpolator = EasingInterpolator(Ease.BounceInOut)
+            addUpdateListener {
+                val value = (it.animatedValue as Float)
+                passThroughTranslate[i] = value.dp
+                passThroughRotate[i] = value * 10f
+            }
+        }
+    }
+
+    val passThroughTranslate = mutableStateListOf<Dp>(
+        *Array(maxNumberOfLetters) {
+            1.dp
+        }
+    )
+
+    val passThroughRotate = mutableStateListOf<Float>(
+        *FloatArray(maxNumberOfLetters) {
+            1f
+        }.toTypedArray()
+    )
+
+    val numberOfLeafs = 3
+    private var leafAnimating: Boolean = false
+    val leafsScale = mutableStateListOf<Float>(
+        *FloatArray(numberOfLeafs) {
+            1f
+        }.toTypedArray()
+    )
+
+    val leafsPosition = mutableStateListOf<DpOffset>(
+        *Array(numberOfLeafs) {
+            DpOffset(0.dw, 0.dw)
+        }
+    )
+
+    val leafsAngles = mutableStateListOf<Float>(
+        *FloatArray(numberOfLeafs) {
+            1f
+        }.toTypedArray()
+    )
+    private var leafAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+        duration = 800
+        addUpdateListener {
+            val value = it.animatedValue as Float
+            for (i in allowedLetters.indices) {
+                shufflePosition[i] = leafsPosition[i]
+                    .positionBetweenPivotAtDistance(
+                        pivot = pivot,
+                        factor = value
+                    )
+                shuffleAngles[i] = value * 360f * leafsAngles[i]
+            }
+            if (it.currentPlayTime > it.duration / 2 &&
+                !leafAnimating
+            ) {
+                shuffle()
+                leafAnimating = true
+            }
+        }
+        doOnEnd {
+            leafAnimating = false
         }
     }
 
@@ -215,20 +284,19 @@ class GameScreenViewModel @Inject constructor(
                     )
                 shuffleAngles[i] = value * 360f * allowedLettersAngles[i]
             }
-
             if (it.currentPlayTime > it.duration / 2 &&
-                !isShuffling
+                !isShuffleAnimating
             ) {
                 shuffle()
-                isShuffling = true
+                isShuffleAnimating = true
             }
         }
         doOnEnd {
-            isShuffling = false
+            isShuffleAnimating = false
         }
     }
 
-    private var isShuffling: Boolean = false
+    private var isShuffleAnimating: Boolean = false
 
     val passThroughScale = mutableStateListOf<Float>(
         *FloatArray(maxNumberOfLetters) {
@@ -303,6 +371,9 @@ class GameScreenViewModel @Inject constructor(
                         interpolator = EasingInterpolator(Ease.CubicOut)
                         start()
                     }
+                    passThroughShakeAnimators[it].apply {
+                        start()
+                    }
                 }
                 clearSelectedLetters()
             }
@@ -313,9 +384,9 @@ class GameScreenViewModel @Inject constructor(
                 if (index == -1) return
                 passThroughScaleAnimators[index].apply {
                     if (isAdded) {
-                        setFloatValues(1f, 1.15f, 1.08f)
+                        setFloatValues(1f, 1.19f, 1.09f)
                     } else {
-                        setFloatValues(1.08f, 1f)
+                        setFloatValues(1.09f, 0.95f, 1f)
                     }
                     start()
                 }

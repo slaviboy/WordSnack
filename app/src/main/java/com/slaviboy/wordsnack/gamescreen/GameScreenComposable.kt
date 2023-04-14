@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontVariation.width
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.ramcosta.composedestinations.annotation.Destination
@@ -135,10 +136,10 @@ fun AllowedLettersComposable(
                 width = viewModel.allowedLettersWidth,
                 modifier = Modifier
                     .offset(
-                        x = viewModel.shufflePosition[i].x,
-                        y = viewModel.shufflePosition[i].y
+                        x = viewModel.shufflePosition[i].x + viewModel.passThroughTranslate[i],
+                        y = viewModel.shufflePosition[i].y + viewModel.passThroughTranslate[i]
                     )
-                    .rotate(viewModel.shuffleAngles[i])
+                    .rotate(viewModel.shuffleAngles[i] + viewModel.passThroughRotate[i])
                     .scale(viewModel.passThroughScale[i])
             )
         }
@@ -260,19 +261,49 @@ fun WordsComposable(
                 horizontalArrangement = Arrangement.Center
             ) {
                 word.forEach { _ ->
-                    ClippedImage(
-                        width = viewModel.letterBoxWidth,
-                        clipData = viewModel.commonClipData,
-                        imageType = CommonImageType.LetterBox,
+                    Box(
                         modifier = Modifier
-                            .padding(
-                                horizontal = viewModel.letterBoxPaddingHorizontal,
-                                vertical = viewModel.letterBoxPaddingVertical
-                            )
-                    )
+                            .width(viewModel.letterBoxWidth + viewModel.letterBoxPaddingHorizontal * 2)
+                            .height(viewModel.letterBoxWidth + viewModel.letterBoxPaddingVertical * 2),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ClippedImage(
+                            width = viewModel.letterBoxWidth,
+                            clipData = viewModel.commonClipData,
+                            imageType = CommonImageType.LetterBox,
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = viewModel.letterBoxPaddingHorizontal,
+                                    vertical = viewModel.letterBoxPaddingVertical
+                                )
+                        )
+                        AnimatedLeafs(viewModel, this)
+                    }
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun AnimatedLeafs(
+    viewModel: GameScreenViewModel,
+    boxScope: BoxScope
+) = with(boxScope) {
+    for (i in 0 until viewModel.numberOfLeafs) {
+        ClippedImage(
+            width = viewModel.letterBoxWidth,
+            clipData = viewModel.commonClipData,
+            imageType = CommonImageType.Leaf,
+            modifier = Modifier
+                .offset(
+                    x = viewModel.leafsPosition[i].x,
+                    y = viewModel.leafsPosition[i].y
+                )
+                .rotate(viewModel.leafsAngles[i])
+                .scale(viewModel.leafsScale[i])
+        )
     }
 }
 
