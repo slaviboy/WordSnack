@@ -60,7 +60,7 @@ object EasingProvider {
             is BounceInOut -> getBounceInOut(elapsedTimeRate)
 
             is ElasticIn -> getElasticIn(elapsedTimeRate, 1.0f, 0.3f)
-            is ElasticOut -> getElasticOut(elapsedTimeRate, 1.0f, 0.3f)
+            is ElasticOut -> getElasticOut(elapsedTimeRate, 1.0f, 0.7f)
             is ElasticInOut -> getElasticInOut(elapsedTimeRate, 1.0f, 0.45f)
 
             is EaseInExpo -> getEaseInExpo(elapsedTimeRate)

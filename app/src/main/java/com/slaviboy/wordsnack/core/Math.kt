@@ -15,6 +15,10 @@ object Math {
         return Math.min(a, b)
     }
 
+    fun max(a: Float, b: Float): Float {
+        return Math.max(a, b)
+    }
+
     fun cos(a: Float): Float {
         return Math.cos(a.toDouble()).toFloat()
     }

@@ -21,14 +21,10 @@ fun DpOffset.rotateAroundPivot(
 
 fun DpOffset.positionBetweenPivotAtDistance(
     pivot: DpOffset,
-    factor: Float //[0,1]
+    factor: Float // [0,1]
 ): DpOffset {
-    val xDist = pivot.x - this.x
-    val yDist = pivot.y - this.y
-    val dist = (xDist * xDist + yDist * yDist).sqrt()
-    val fractionOfTotal = (factor * 100f) / dist
     return DpOffset(
-        x = this.x + xDist * fractionOfTotal,
-        y = this.y + yDist * fractionOfTotal
+        x = (this.x + pivot.x) * factor,
+        y = (this.y + pivot.y) * factor
     )
 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontVariation.width
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.ramcosta.composedestinations.annotation.Destination
@@ -73,7 +73,7 @@ fun GameScreenComposable(
             boxScope = this
         )
 
-        WordsComposable(
+        AnswerWordsComposable(
             viewModel = viewModel,
             boxScope = this
         )
@@ -232,7 +232,7 @@ fun SelectedLetters(
 }
 
 @Composable
-fun WordsComposable(
+fun AnswerWordsComposable(
     viewModel: GameScreenViewModel,
     boxScope: BoxScope
 ) = with(boxScope) {
@@ -255,12 +255,12 @@ fun WordsComposable(
             .align(Alignment.TopCenter)
             .offset(y = 0.1.dh)
     ) {
-        viewModel.words.forEach { word ->
+        viewModel.words.forEachIndexed { j, word ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                word.forEach { _ ->
+                word.forEachIndexed { i, letter ->
                     Box(
                         modifier = Modifier
                             .width(viewModel.letterBoxWidth + viewModel.letterBoxPaddingHorizontal * 2)
@@ -277,7 +277,17 @@ fun WordsComposable(
                                     vertical = viewModel.letterBoxPaddingVertical
                                 )
                         )
-                        AnimatedLeafs(viewModel, this)
+                        if (j == 0) {
+                            Letter(
+                                text = letter.toString().uppercase(),
+                                clipData = viewModel.commonClipData,
+                                imageType = CommonImageType.LetterFixed,
+                                width = viewModel.passThroughSelectedLetterWidth,
+                                modifier = Modifier
+                                    .scale(viewModel.answerLettersScale)
+                            )
+                            AnimatedLeafs(viewModel, this)
+                        }
                     }
                 }
             }
@@ -291,18 +301,19 @@ fun AnimatedLeafs(
     viewModel: GameScreenViewModel,
     boxScope: BoxScope
 ) = with(boxScope) {
-    for (i in 0 until viewModel.numberOfLeafs) {
+    for (i in viewModel.leafsAnimatedPositions.indices) {
         ClippedImage(
-            width = viewModel.letterBoxWidth,
+            width = viewModel.leafBoxWidth,
             clipData = viewModel.commonClipData,
             imageType = CommonImageType.Leaf,
             modifier = Modifier
                 .offset(
-                    x = viewModel.leafsPosition[i].x,
-                    y = viewModel.leafsPosition[i].y
+                    x = viewModel.leafsAnimatedPositions[i].x,
+                    y = viewModel.leafsAnimatedPositions[i].y
                 )
                 .rotate(viewModel.leafsAngles[i])
-                .scale(viewModel.leafsScale[i])
+                .scale(viewModel.leafsAnimatedScale[i])
+                .alpha(viewModel.leafsAnimatedOpacity[i])
         )
     }
 }
@@ -445,7 +456,7 @@ fun BottomBarComposable(
         clipData = viewModel.commonClipData,
         modifier = Modifier.align(Alignment.BottomStart)
     ) {
-
+        viewModel.requestHint()
     }
 
     ClippedButton(

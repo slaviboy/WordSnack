@@ -5,7 +5,6 @@ import android.content.res.AssetManager
 import android.graphics.PointF
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -16,11 +15,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.slaviboy.composeunits.DpToPx
 import com.slaviboy.composeunits.dw
+import com.slaviboy.wordsnack.core.Math.max
 import com.slaviboy.wordsnack.core.allTrue
 import com.slaviboy.wordsnack.core.distanceBetweenTwoPoints
 import com.slaviboy.wordsnack.extensions.getRandomItems
@@ -37,10 +38,12 @@ import com.slaviboy.wordsnack.interpolators.EasingInterpolator
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class GameScreenViewModel @Inject constructor(
@@ -63,6 +66,7 @@ class GameScreenViewModel @Inject constructor(
     var allowedLetters by mutableStateOf(charArrayOf())
 
     var letterBoxWidth by mutableStateOf(0.dw)
+    var leafBoxWidth by mutableStateOf(0.dw)
     var letterBoxPaddingHorizontal by mutableStateOf(0.dw)
     var letterBoxPaddingVertical by mutableStateOf(0.dw)
 
@@ -94,6 +98,7 @@ class GameScreenViewModel @Inject constructor(
         letterBoxPaddingHorizontal = 0.006.dw + 0.001.dw * (maxNumberOfLetters - numberOfLetterColumns)
         letterBoxPaddingVertical = 0.013.dw
         letterBoxWidth = calculateLetterBoxWidth(numberOfLetterRows, numberOfLetterColumns)
+        leafBoxWidth = letterBoxWidth * 0.27f
     }
 
     private fun calculateLetterBoxWidth(
@@ -169,6 +174,11 @@ class GameScreenViewModel @Inject constructor(
         shuffleAnimator.start()
     }
 
+    fun requestHint() {
+        leafAnimator.start()
+        answerLettersAnimator.start()
+    }
+
     private fun shuffle() {
         allowedLetters = generatedWord.shuffle().toCharArray()
         allowedLettersWidth = 0.16.dw + 0.07.dw * (1f - allowedLetters.size / maxNumberOfLetters.toFloat())
@@ -229,7 +239,7 @@ class GameScreenViewModel @Inject constructor(
         }.toTypedArray()
     )
 
-    val numberOfLeafs = 3
+    private val numberOfLeafs = 8
     private var leafAnimating: Boolean = false
     val leafsScale = mutableStateListOf<Float>(
         *FloatArray(numberOfLeafs) {
@@ -237,9 +247,21 @@ class GameScreenViewModel @Inject constructor(
         }.toTypedArray()
     )
 
-    val leafsPosition = mutableStateListOf<DpOffset>(
+    val leafsAnimatedPositions = mutableStateListOf<DpOffset>(
         *Array(numberOfLeafs) {
             DpOffset(0.dw, 0.dw)
+        }
+    )
+
+    val leafsAnimatedOpacity = mutableStateListOf<Float>(
+        *Array(numberOfLeafs) {
+            1f
+        }
+    )
+
+    val leafsAnimatedScale = mutableStateListOf<Float>(
+        *Array(numberOfLeafs) {
+            1f
         }
     )
 
@@ -248,29 +270,49 @@ class GameScreenViewModel @Inject constructor(
             1f
         }.toTypedArray()
     )
-    private var leafAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-        duration = 800
+
+
+    var answerLettersScale by mutableStateOf<Float>(1f)
+
+    private var answerLettersAnimator = ValueAnimator.ofFloat(-0.7f, 1f).apply {
+        duration = 1000
+        interpolator = EasingInterpolator(Ease.ElasticOut)
+        addUpdateListener {
+            answerLettersScale = it.animatedValue as Float
+        }
+    }
+
+    private var leafsPositions: MutableList<DpOffset> = mutableListOf()
+    private var leafAnimator = ValueAnimator.ofFloat(0f, 1.3f).apply {
+        duration = 1200
+        interpolator = EasingInterpolator(Ease.Linear)
         addUpdateListener {
             val value = it.animatedValue as Float
-            for (i in allowedLetters.indices) {
-                shufflePosition[i] = leafsPosition[i]
+            for (i in leafsPositions.indices) {
+                leafsAnimatedPositions[i] = leafsPositions[i]
                     .positionBetweenPivotAtDistance(
                         pivot = pivot,
                         factor = value
                     )
-                shuffleAngles[i] = value * 360f * leafsAngles[i]
-            }
-            if (it.currentPlayTime > it.duration / 2 &&
-                !leafAnimating
-            ) {
-                shuffle()
-                leafAnimating = true
+                leafsAnimatedOpacity[i] = if (value < 0.8f) 1f else 1f - value
+                leafsAnimatedScale[i] = if (value < 0.5f) 1f else 1.1f - value
+                leafsAnimatedOpacity[i] = if (value < 0.6f) 1f else 1f - value
             }
         }
-        doOnEnd {
-            leafAnimating = false
+        doOnStart {
+            leafsPositions.clear()
+            for (i in 0 until numberOfLeafs) {
+                val distanceFromPivot = (letterBoxWidth / 2f) + (letterBoxPaddingHorizontal * 4f) * Random.nextFloat()
+                val position = DpOffset(pivot.x, pivot.y - distanceFromPivot)
+                val angleAroundPivot = (i / numberOfLeafs.toFloat()) * 360f// * (10 * Random.nextFloat())
+                val rotatePosition = position.rotateAroundPivot(pivot, angleAroundPivot)
+                leafsPositions.add(rotatePosition)
+                leafsAngles[i] = angleAroundPivot
+                leafsScale[i] = 0.2f + Random.nextFloat()
+            }
         }
     }
+
 
     private var shuffleAnimator = ValueAnimator.ofFloat(0f, 1.3f, 0f).apply {
         duration = 800
@@ -282,7 +324,7 @@ class GameScreenViewModel @Inject constructor(
                         pivot = pivot,
                         factor = value
                     )
-                shuffleAngles[i] = value * 360f * allowedLettersAngles[i]
+                //shuffleAngles[i] = value * 360f * allowedLettersAngles[i]
             }
             if (it.currentPlayTime > it.duration / 2 &&
                 !isShuffleAnimating
