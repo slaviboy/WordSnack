@@ -308,7 +308,7 @@ class GameScreenViewModel @Inject constructor(
 
 
     private var shuffleAnimator = ValueAnimator.ofFloat(1f, 0f, 1f).apply {
-        duration = 1000
+        duration = 700
         addUpdateListener {
             val value = it.animatedValue as Float
             for (i in allowedLetters.indices) {

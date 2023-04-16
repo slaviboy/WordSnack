@@ -295,7 +295,6 @@ fun AnswerWordsComposable(
     }
 }
 
-
 @Composable
 fun AnimatedLeafs(
     viewModel: GameScreenViewModel,

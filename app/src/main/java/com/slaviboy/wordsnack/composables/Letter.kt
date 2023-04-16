@@ -30,7 +30,7 @@ fun Letter(
     textShadowWidth: Dp = width * 1.45f,
     textOffsetX: Dp = 0.dw,
     textOffsetY: Dp = width * -0.04f,
-    textSize: TextUnit = TextUnit(width.value * 0.65f, type = TextUnitType.Sp),
+    textSize: TextUnit = TextUnit(width.value * 0.75f, type = TextUnitType.Sp),
     textShadowOffsetX: Dp = 0.dw,
     textShadowOffsetY: Dp = width * -0.018f,
     shadowImageType: ImageType? = null
