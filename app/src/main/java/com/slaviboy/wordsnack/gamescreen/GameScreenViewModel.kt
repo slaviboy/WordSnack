@@ -240,12 +240,6 @@ class GameScreenViewModel @Inject constructor(
     )
 
     private val numberOfLeafs = 8
-    private var leafAnimating: Boolean = false
-    val leafsScale = mutableStateListOf<Float>(
-        *FloatArray(numberOfLeafs) {
-            1f
-        }.toTypedArray()
-    )
 
     val leafsAnimatedPositions = mutableStateListOf<DpOffset>(
         *Array(numberOfLeafs) {
@@ -308,14 +302,13 @@ class GameScreenViewModel @Inject constructor(
                 val rotatePosition = position.rotateAroundPivot(pivot, angleAroundPivot)
                 leafsPositions.add(rotatePosition)
                 leafsAngles[i] = angleAroundPivot
-                leafsScale[i] = 0.2f + Random.nextFloat()
             }
         }
     }
 
 
-    private var shuffleAnimator = ValueAnimator.ofFloat(0f, 1.3f, 0f).apply {
-        duration = 800
+    private var shuffleAnimator = ValueAnimator.ofFloat(1f, 0f, 1f).apply {
+        duration = 1000
         addUpdateListener {
             val value = it.animatedValue as Float
             for (i in allowedLetters.indices) {
@@ -324,7 +317,11 @@ class GameScreenViewModel @Inject constructor(
                         pivot = pivot,
                         factor = value
                     )
-                //shuffleAngles[i] = value * 360f * allowedLettersAngles[i]
+                    .rotateAroundPivot(
+                        pivot = pivot,
+                        angle = (1f - value) * 180f
+                    )
+                shuffleAngles[i] = (1f - value) * 130f * allowedLettersAngles[i]
             }
             if (it.currentPlayTime > it.duration / 2 &&
                 !isShuffleAnimating
