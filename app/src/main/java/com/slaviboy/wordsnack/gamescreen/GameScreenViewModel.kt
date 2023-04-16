@@ -3,6 +3,7 @@ package com.slaviboy.wordsnack.gamescreen
 import android.animation.ValueAnimator
 import android.content.res.AssetManager
 import android.graphics.PointF
+import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.runtime.getValue
@@ -21,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.slaviboy.composeunits.DpToPx
 import com.slaviboy.composeunits.dw
-import com.slaviboy.wordsnack.core.Math.max
 import com.slaviboy.wordsnack.core.allTrue
 import com.slaviboy.wordsnack.core.distanceBetweenTwoPoints
 import com.slaviboy.wordsnack.extensions.getRandomItems
@@ -38,7 +38,6 @@ import com.slaviboy.wordsnack.interpolators.EasingInterpolator
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -149,6 +148,7 @@ class GameScreenViewModel @Inject constructor(
                     )
                 }
             val words = filteredWords.getRandomItems(maxNumberOfWords)
+            Log.i("jojo", "${words.joinToString(" - ")}")
             //val words = listOf("ok", "snakes") //listOf("pork", "anaconda", "dog", "snake", "bubblegum")
             adjustLetterBox(words)
 
@@ -175,8 +175,6 @@ class GameScreenViewModel @Inject constructor(
     }
 
     fun requestHint() {
-        leafAnimator.start()
-        answerLettersAnimator.start()
     }
 
     private fun shuffle() {
@@ -216,13 +214,12 @@ class GameScreenViewModel @Inject constructor(
 
     private var passThroughShakeAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(0f, 1f, 0f, -1f, 0f).apply {
-            duration = 150
-            repeatCount = 1
-            interpolator = EasingInterpolator(Ease.BounceInOut)
+            duration = 250
+            interpolator = EasingInterpolator(Ease.BackInOut)
             addUpdateListener {
                 val value = (it.animatedValue as Float)
-                passThroughTranslate[i] = value.dp
-                passThroughRotate[i] = value * 10f
+                passThroughTranslate[i] = value.dp * 1f
+                passThroughRotate[i] = value * 12f
             }
         }
     }
@@ -355,6 +352,25 @@ class GameScreenViewModel @Inject constructor(
         }.toTypedArray()
     )
 
+    private fun checkForCorrectPassThrough(index: Int) {
+        val passThoughWord = passThroughSelectedLetters.joinToString(separator = "")
+        val i = words.indexOf(passThoughWord)
+        val isMatch = (i != -1) && !passThroughAnswerIndices.contains(i)
+        passThroughAnswerIndex = i
+        if (isMatch) {
+            passThroughAnswerIndices.add(i)
+            leafAnimator.start()
+            answerLettersAnimator.start()
+        } else {
+            passThroughShakeAnimators[index].apply {
+                start()
+            }
+        }
+    }
+
+    val passThroughAnswerIndices = mutableStateListOf<Int>()
+    var passThroughAnswerIndex by mutableStateOf(-1)
+
     fun onMotionEvent(motionEvent: MotionEvent) {
 
         fun changeSelectedLetters(): Pair<Int, Boolean> {
@@ -410,9 +426,7 @@ class GameScreenViewModel @Inject constructor(
                         interpolator = EasingInterpolator(Ease.CubicOut)
                         start()
                     }
-                    passThroughShakeAnimators[it].apply {
-                        start()
-                    }
+                    checkForCorrectPassThrough(it)
                 }
                 clearSelectedLetters()
             }

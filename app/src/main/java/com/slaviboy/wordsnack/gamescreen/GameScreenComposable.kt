@@ -277,15 +277,20 @@ fun AnswerWordsComposable(
                                     vertical = viewModel.letterBoxPaddingVertical
                                 )
                         )
-                        if (j == 0) {
+                        val shouldAnimate = (j == viewModel.passThroughAnswerIndex)
+                        val shouldShowLetter = viewModel.passThroughAnswerIndices.contains(j)
+                        if (shouldShowLetter) {
+                            val scale = if (shouldAnimate) viewModel.answerLettersScale else 1f
                             Letter(
                                 text = letter.toString().uppercase(),
                                 clipData = viewModel.commonClipData,
                                 imageType = CommonImageType.LetterFixed,
                                 width = viewModel.passThroughSelectedLetterWidth,
                                 modifier = Modifier
-                                    .scale(viewModel.answerLettersScale)
+                                    .scale(scale)
                             )
+                        }
+                        if (shouldAnimate) {
                             AnimatedLeafs(viewModel, this)
                         }
                     }
