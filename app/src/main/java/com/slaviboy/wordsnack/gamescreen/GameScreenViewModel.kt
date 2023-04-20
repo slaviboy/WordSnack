@@ -214,8 +214,8 @@ class GameScreenViewModel @Inject constructor(
 
     private var passThroughShakeAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(0f, 1f, 0f, -1f, 0f).apply {
-            duration = 250
-            interpolator = EasingInterpolator(Ease.BackInOut)
+            duration = 150
+            interpolator = EasingInterpolator(Ease.Linear)
             addUpdateListener {
                 val value = (it.animatedValue as Float)
                 passThroughTranslate[i] = value.dp * 1f
