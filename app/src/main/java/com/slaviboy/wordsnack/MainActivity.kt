@@ -10,7 +10,7 @@ import com.slaviboy.composeunits.initSize
 import com.slaviboy.wordsnack.destinations.GameScreenComposableDestination
 import com.slaviboy.wordsnack.destinations.HomeScreenComposableDestination
 import com.slaviboy.wordsnack.extensions.getCurrentLocale
-import com.slaviboy.wordsnack.extensions.transparentStatusBar
+import com.slaviboy.wordsnack.extensions.hideSystemBars
 import com.slaviboy.wordsnack.gamescreen.GameScreenViewModel
 import com.slaviboy.wordsnack.homescreen.HomeScreenViewModel
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        transparentStatusBar()
+        hideSystemBars()
         initSize()
 
         applicationPreferences.setLocale(getCurrentLocale())
