@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
@@ -33,7 +33,7 @@ import com.slaviboy.wordsnack.extensions.readAsText
 import com.slaviboy.wordsnack.extensions.rotateAroundPivot
 import com.slaviboy.wordsnack.extensions.setCurveThroughPoints
 import com.slaviboy.wordsnack.extensions.shuffle
-import com.slaviboy.wordsnack.interpolators.Ease
+import com.slaviboy.wordsnack.interpolators.Easing
 import com.slaviboy.wordsnack.interpolators.EasingInterpolator
 import com.slaviboy.wordsnack.preferences.ApplicationPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -205,7 +205,7 @@ class GameScreenViewModel @Inject constructor(
     private var passThroughScaleAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(1f, 1.07f).apply {
             duration = 250
-            interpolator = EasingInterpolator(Ease.BounceInOut)
+            interpolator = EasingInterpolator(Easing.EaseInOutBounce)
             addUpdateListener {
                 passThroughScale[i] = it.animatedValue as Float
             }
@@ -214,8 +214,8 @@ class GameScreenViewModel @Inject constructor(
 
     private var passThroughShakeAnimators = Array<ValueAnimator>(maxNumberOfLetters) { i ->
         ValueAnimator.ofFloat(0f, 1f, 0f, -1f, 0f).apply {
-            duration = 150
-            interpolator = EasingInterpolator(Ease.Linear)
+            duration = 900
+            interpolator = EasingInterpolator(Easing.EaseInOutElastic)
             addUpdateListener {
                 val value = (it.animatedValue as Float)
                 passThroughTranslate[i] = value.dp * 1f
@@ -267,7 +267,7 @@ class GameScreenViewModel @Inject constructor(
 
     private var answerLettersAnimator = ValueAnimator.ofFloat(-0.7f, 1f).apply {
         duration = 1000
-        interpolator = EasingInterpolator(Ease.ElasticOut)
+        interpolator = EasingInterpolator(Easing.EaseOutElastic)
         addUpdateListener {
             answerLettersScale = it.animatedValue as Float
         }
@@ -276,7 +276,7 @@ class GameScreenViewModel @Inject constructor(
     private var leafsPositions: MutableList<DpOffset> = mutableListOf()
     private var leafAnimator = ValueAnimator.ofFloat(0f, 1.3f).apply {
         duration = 1200
-        interpolator = EasingInterpolator(Ease.Linear)
+        interpolator = EasingInterpolator(Easing.Linear)
         addUpdateListener {
             val value = it.animatedValue as Float
             for (i in leafsPositions.indices) {
@@ -423,7 +423,7 @@ class GameScreenViewModel @Inject constructor(
                 passThroughSelectedLettersIndices.forEach {
                     passThroughScaleAnimators[it].apply {
                         setFloatValues(1.08f, 0.95f, 1f)
-                        interpolator = EasingInterpolator(Ease.CubicOut)
+                        interpolator = EasingInterpolator(Easing.EaseInOutCubic)
                         start()
                     }
                     checkForCorrectPassThrough(it)

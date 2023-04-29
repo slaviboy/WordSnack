@@ -1,0 +1,46 @@
+package com.slaviboy.wordsnack.interpolators
+
+/**
+ * The Easing class provides a collection of ease functions. It does not use the standard 4 param
+ * ease signature. Instead it uses a single param which indicates the current linear ratio (0 to 1) of the tween.
+ */
+sealed class Easing {
+    object Ease : Easing()
+    object EaseOut : Easing()
+    object EaseIn : Easing()
+    object EaseInOut : Easing()
+    object EaseInSine : Easing()
+    object EaseOutSine : Easing()
+    object EaseInOutSine : Easing()
+    object EaseInCubic : Easing()
+    object EaseOutCubic : Easing()
+    object EaseInOutCubic : Easing()
+    object EaseInQuint : Easing()
+    object EaseOutQuint : Easing()
+    object EaseInOutQuint : Easing()
+    object EaseInCirc : Easing()
+    object EaseOutCirc : Easing()
+    object EaseInOutCirc : Easing()
+    object EaseInQuad : Easing()
+    object EaseOutQuad : Easing()
+    object EaseInOutQuad : Easing()
+    object EaseInQuart : Easing()
+    object EaseOutQuart : Easing()
+    object EaseInOutQuart : Easing()
+    object EaseInExpo : Easing()
+    object EaseOutExpo : Easing()
+    object EaseInOutExpo : Easing()
+    object EaseInBack : Easing()
+    object EaseOutBack : Easing()
+    object EaseInOutBack : Easing()
+    object EaseInElastic : Easing()
+    object EaseOutElastic : Easing()
+    object EaseInOutElastic : Easing()
+    object EaseOutBounce : Easing()
+    object EaseInBounce : Easing()
+    object EaseInOutBounce : Easing()
+    object FastOutSlowIn : Easing()
+    object LinearOutSlowIn : Easing()
+    object FastOutLinearIn : Easing()
+    object Linear : Easing()
+}
